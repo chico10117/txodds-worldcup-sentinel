@@ -4,7 +4,12 @@ import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { analyzeFeed } from "./analyze.js";
 import { normalizeTxOddsPayload } from "./normalize-txodds.js";
-import { renderDemoVideoHtml, renderPlaygroundHtml, renderReportHtml } from "./render-html.js";
+import {
+  renderDemoVideoHtml,
+  renderJudgeBriefHtml,
+  renderPlaygroundHtml,
+  renderReportHtml
+} from "./render-html.js";
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -31,6 +36,8 @@ function parseArgs(argv) {
       artifacts.playgroundHtmlPath = args[++index];
     } else if (arg === "--playground-js") {
       artifacts.playgroundJsPath = args[++index];
+    } else if (arg === "--judge-brief-html") {
+      artifacts.judgeBriefHtmlPath = args[++index];
     } else if (arg === "--manifest-json") {
       artifacts.manifestJsonPath = args[++index];
     } else {
@@ -40,7 +47,7 @@ function parseArgs(argv) {
 
   if (!inputPath || !outputPath) {
     throw new Error(
-      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--playground-html PATH --playground-js PATH] [--manifest-json PATH]"
+      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--playground-html PATH --playground-js PATH] [--judge-brief-html PATH] [--manifest-json PATH]"
     );
   }
 
@@ -58,6 +65,10 @@ function parseArgs(argv) {
 
   if (artifacts.playgroundHtmlPath && !artifacts.txOddsInputPath) {
     throw new Error("--playground-html requires --txodds-input");
+  }
+
+  if (artifacts.judgeBriefHtmlPath && !artifacts.txOddsInputPath) {
+    throw new Error("--judge-brief-html requires --txodds-input");
   }
 
   return { inputPath, outputPath, options, artifacts };
@@ -138,6 +149,14 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     );
   }
 
+  if (artifacts.judgeBriefHtmlPath) {
+    manifestArtifacts.splice(
+      1,
+      0,
+      await artifact(artifacts.judgeBriefHtmlPath, "Public judge evaluation brief")
+    );
+  }
+
   return {
     generatedAt: report.generatedAt,
     project: "TxODDS World Cup Sentinel",
@@ -150,6 +169,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
       demoVideoPage: "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
       judgePlayground:
         "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
+      judgeBrief: "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
       demoVideo:
         "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
       reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",
@@ -207,6 +227,12 @@ async function main() {
     const payload = await readJson(artifacts.txOddsInputPath);
     txOddsReport = analyzeFeed(normalizeTxOddsPayload(payload), options);
     await writeJson(artifacts.txOddsReportJsonPath, txOddsReport);
+
+    if (artifacts.judgeBriefHtmlPath) {
+      await mkdir(dirname(artifacts.judgeBriefHtmlPath), { recursive: true });
+      await writeFile(artifacts.judgeBriefHtmlPath, renderJudgeBriefHtml(report, txOddsReport));
+      console.log(`wrote ${artifacts.judgeBriefHtmlPath}`);
+    }
 
     if (artifacts.playgroundHtmlPath) {
       await mkdir(dirname(artifacts.playgroundHtmlPath), { recursive: true });

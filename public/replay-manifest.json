@@ -8,6 +8,7 @@
     "publicRepository": "https://github.com/chico10117/txodds-worldcup-sentinel",
     "demoVideoPage": "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
     "judgePlayground": "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
+    "judgeBrief": "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
     "demoVideo": "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
     "reportJson": "https://txodds-worldcup-sentinel.vercel.app/report.json",
     "txoddsCaptureReportJson": "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
@@ -52,20 +53,26 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "81832f7cd014e0d4878246945da3477d7acfacba46dfb198c14577c1096e1d57",
-      "sizeBytes": 14404
+      "sha256": "e976d39f09abcbda999e6ef2c9d7f2acd925c6f371bea169c7872ce1422bf4de",
+      "sizeBytes": 14461
+    },
+    {
+      "path": "public/judge-brief.html",
+      "description": "Public judge evaluation brief",
+      "sha256": "f651c14c35c417598b35c32c6b3a5649d3a186eb753ea415de9867d9b9806483",
+      "sizeBytes": 9654
     },
     {
       "path": "public/demo-video.html",
       "description": "Public demo video review page",
-      "sha256": "85f35328a1fa9dd0f0c9b1bfa2cfbbfabc62e0aeb3da94b21b84c1718ea46911",
-      "sizeBytes": 4787
+      "sha256": "1cb1238333b48127e3a036ae3f926bb4ca2b576d3c1e300990e7e90fd506a6c6",
+      "sizeBytes": 4838
     },
     {
       "path": "public/judge-playground.html",
       "description": "Public paste-in TxODDS judge playground",
-      "sha256": "4376ad8dc46465bc9aecfe8ac178b05d01ed47626daf51a920164915c65d7d46",
-      "sizeBytes": 7749
+      "sha256": "74427433daad107cb492256dbc507e1c62c3665b44d1b4a4ea25592af065a7f5",
+      "sizeBytes": 7806
     },
     {
       "path": "public/playground.js",
@@ -143,20 +150,20 @@
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "e909051db21d16514469f6ca68f6844aea926b205f983a2aeaef6b244ff33464",
-      "sizeBytes": 23347
+      "sha256": "905b23bd4890077eba84fe232b96dfd045f7122c8d48330cc779ebd3507fafdf",
+      "sizeBytes": 32480
     },
     {
       "path": "package.json",
       "description": "Node scripts and reproducible build entrypoints",
-      "sha256": "6db6afb26e2b04ac222e7fdc3768314aac7c33c64c327e5f1b2f32a99c6f9966",
-      "sizeBytes": 1094
+      "sha256": "ca94c0cd188534a65c9155fcd554f13080d4731d05a33e17d8b9d969351dffa8",
+      "sizeBytes": 1137
     },
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "61870643156bc939a450dc1febc773d85486c237aa2773cfc87ba994ab596651",
-      "sizeBytes": 2759
+      "sha256": "2a7214592710774240cd23223103ca90ce1329b416d14434de2df40083262cbb",
+      "sizeBytes": 3022
     }
   ],
   "safety": {

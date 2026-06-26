@@ -31,11 +31,13 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
 risk score. The demo build writes `public/index.html`,
-`public/demo-video.html`, `public/judge-playground.html`, `public/report.json`,
+`public/judge-brief.html`, `public/demo-video.html`,
+`public/judge-playground.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges
-can inspect the rendered report, captioned video, paste captured TxODDS-shaped
-JSON into a browser-only analyzer, review machine-readable analyzer output,
-replay commands, artifact hashes, and safety assumptions without a backend.
+can inspect the rendered report, one-page evaluation brief, captioned video,
+paste captured TxODDS-shaped JSON into a browser-only analyzer, review
+machine-readable analyzer output, replay commands, artifact hashes, and safety
+assumptions without a backend.
 
 ## Live API Boundary
 
@@ -70,6 +72,7 @@ Current Vercel deployment:
 
 ```text
 https://txodds-worldcup-sentinel.vercel.app
+https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
 https://txodds-worldcup-sentinel.vercel.app/demo-video.html
 https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
 ```
@@ -87,6 +90,9 @@ https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
 The replay manifest records the public URLs, validation commands, report
 summaries, SHA-256 hashes for the generated outputs and key source files, and
 the no-private-key/no-token/no-network-call safety posture.
+
+The judge brief summarizes the fixture report, captured TxODDS report, replay
+path, and safety posture in a single static page for fast review.
 
 The judge playground runs entirely in the browser from `public/playground.js`.
 It accepts pasted TxODDS-shaped JSON and writes results through DOM text nodes,

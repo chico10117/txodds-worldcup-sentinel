@@ -14,6 +14,12 @@ Public repository:
 https://github.com/chico10117/txodds-worldcup-sentinel
 ```
 
+Judge brief:
+
+```text
+https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
+```
+
 Demo video:
 
 ```text
@@ -58,6 +64,9 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
   dependency-free Node scripts.
 - Public machine-readable reports are generated at `/report.json` and
   `/txodds-capture-report.json` for direct judge inspection.
+- A public judge evaluation brief is generated at `/judge-brief.html` with the
+  fixture report, captured TxODDS report, replay path, and safety posture on one
+  static page.
 - A public browser-playable demo video page is generated at `/demo-video.html`.
 - A public paste-in judge playground is generated at `/judge-playground.html`
   so reviewers can paste captured TxODDS-shaped JSON and run the analyzer

@@ -53,6 +53,25 @@ function flagRows(flags) {
     .join("");
 }
 
+function briefFlagRows(flags) {
+  if (!flags.length) {
+    return '<tr><td colspan="4">No review flags detected.</td></tr>';
+  }
+
+  return flags
+    .slice(0, 5)
+    .map(
+      (flag) => `
+        <tr>
+          <td><span class="signal ${severityClass(flag.severity)}">${escapeHtml(flag.severity)}</span></td>
+          <td><code>${escapeHtml(flag.code)}</code></td>
+          <td>${escapeHtml(flag.matchId)}</td>
+          <td>${escapeHtml(flag.detail)}</td>
+        </tr>`
+    )
+    .join("");
+}
+
 function selectionRows(selections) {
   return selections
     .map((selection) => {
@@ -435,7 +454,7 @@ export function renderReportHtml(report) {
 
     <footer>
       <p>Demo-data mode only. Live TxODDS integration should use the captured-payload normalizer or an adapter that emits the same feed shape after a safe API-token route exists. This page does not require a wallet, paid subscription, private key, seed phrase, or external network call.</p>
-      <p>Reviewer links: <a href="./demo-video.html">captioned demo video page</a>, <a href="./judge-playground.html">paste-in TxODDS judge playground</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, and <a href="./replay-manifest.json">replay manifest JSON</a>.</p>
+      <p>Reviewer links: <a href="./judge-brief.html">judge evaluation brief</a>, <a href="./demo-video.html">captioned demo video page</a>, <a href="./judge-playground.html">paste-in TxODDS judge playground</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, and <a href="./replay-manifest.json">replay manifest JSON</a>.</p>
     </footer>
   </main>
 </body>
@@ -681,11 +700,314 @@ export function renderPlaygroundHtml(samplePayload) {
     </section>
 
     <footer>
-      <p>Sample payload is embedded from the repository fixture. For replay evidence, see <a href="./replay-manifest.json">replay-manifest.json</a>, <a href="./report.json">fixture report JSON</a>, and <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>.</p>
+      <p>Sample payload is embedded from the repository fixture. For replay evidence, see <a href="./judge-brief.html">judge evaluation brief</a>, <a href="./replay-manifest.json">replay-manifest.json</a>, <a href="./report.json">fixture report JSON</a>, and <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>.</p>
     </footer>
   </main>
   <script type="application/json" id="sample-payload">${jsonForScript(samplePayload)}</script>
   <script type="module" src="./playground.js"></script>
+</body>
+</html>
+`;
+
+  return html.replace(/[ \t]+$/gm, "");
+}
+
+export function renderJudgeBriefHtml(report, txOddsReport) {
+  const fixtureState = riskLabel(report.riskScore);
+  const txOddsState = riskLabel(txOddsReport.riskScore);
+
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TxODDS Judge Evaluation Brief</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f6f1e8;
+      --muted: #abb6ac;
+      --line: #30362f;
+      --panel: #151914;
+      --page: #090c09;
+      --green: #7dde92;
+      --cyan: #7dd3fc;
+      --amber: #f6c85f;
+      --red: #ff6b5e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(135deg, rgba(125, 222, 146, 0.10), transparent 28rem),
+        linear-gradient(225deg, rgba(125, 211, 252, 0.10), transparent 24rem),
+        var(--page);
+      color: var(--ink);
+      font-family: "Avenir Next", "Gill Sans", Verdana, sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+
+    h1 {
+      max-width: 780px;
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: clamp(2.1rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    h3 {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .brief {
+      margin-top: 16px;
+      color: var(--muted);
+      max-width: 820px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.86);
+      min-height: 92px;
+      padding: 14px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      color: var(--amber);
+      display: block;
+      font-size: 1.45rem;
+      margin-top: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.86);
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .panel p, li {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    ul {
+      margin: 12px 0 0;
+      padding-left: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td, th {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      vertical-align: top;
+    }
+
+    td {
+      color: var(--ink);
+      font-size: 0.9rem;
+    }
+
+    code {
+      color: var(--cyan);
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+    }
+
+    .signal {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border: 1px solid currentColor;
+      padding: 3px 8px;
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .sev-high { color: var(--red); }
+    .sev-medium { color: var(--amber); }
+    .sev-low { color: var(--green); }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    a { color: var(--cyan); }
+
+    .links a {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.84);
+      padding: 10px 12px;
+      text-decoration: none;
+    }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 32px;
+      padding-top: 18px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 820px) {
+      main { width: min(100% - 20px, 1120px); padding-top: 22px; }
+      .metrics, .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">TxODDS World Cup Sentinel / review packet</p>
+    <h1>Judge evaluation brief</h1>
+    <p class="brief">Single-page review packet for the public MVP. It compares the deterministic fixture report with the captured TxODDS-shaped report and points judges to the replayable artifacts without requiring wallet connection, API credentials, paid access, or live network calls.</p>
+
+    <section class="metrics" aria-label="Evaluation summary">
+      <div class="metric"><span>Fixture report</span><strong>${escapeHtml(fixtureState)}</strong></div>
+      <div class="metric"><span>Fixture flags</span><strong>${escapeHtml(report.flagCount)}</strong></div>
+      <div class="metric"><span>Captured TxODDS report</span><strong>${escapeHtml(txOddsState)}</strong></div>
+      <div class="metric"><span>Captured flags</span><strong>${escapeHtml(txOddsReport.flagCount)}</strong></div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <p class="eyebrow">What to verify</p>
+        <h2>Public review path</h2>
+        <ul>
+          <li>Open the live MVP report and confirm the ranked risk signals render from replayable demo data.</li>
+          <li>Use the judge playground to paste captured TxODDS-shaped JSON and run the same analyzer in the browser.</li>
+          <li>Inspect the replay manifest for SHA-256 hashes, validation commands, report summaries, and public URLs.</li>
+          <li>Compare the fixture JSON report with the captured TxODDS report to verify the adapter boundary.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Safety posture</p>
+        <h2>No custody or secrets</h2>
+        <ul>
+          <li>The public MVP does not connect a wallet, sign transactions, request API tokens, or use private keys.</li>
+          <li>The deterministic build uses local fixtures only and does not make live TxODDS, Solana, mainnet, or testnet calls.</li>
+          <li>The browser playground uses embedded JavaScript and DOM text updates without fetch, XHR, storage, or navigator calls.</li>
+          <li>Live TxODDS calls are intentionally excluded until a safe user-controlled API-token route exists.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <p class="eyebrow">Fixture report</p>
+        <h2>Top replay flags</h2>
+        <table aria-label="Top fixture report flags">
+          <thead>
+            <tr>
+              <th>Severity</th>
+              <th>Code</th>
+              <th>Match</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${briefFlagRows(report.flags)}
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Captured TxODDS report</p>
+        <h2>Top normalized flags</h2>
+        <table aria-label="Top captured TxODDS report flags">
+          <thead>
+            <tr>
+              <th>Severity</th>
+              <th>Code</th>
+              <th>Match</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${briefFlagRows(txOddsReport.flags)}
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <nav class="links" aria-label="Reviewer links">
+      <a href="./index.html">Live MVP report</a>
+      <a href="./demo-video.html">Demo video page</a>
+      <a href="./judge-playground.html">Judge playground</a>
+      <a href="./replay-manifest.json">Replay manifest</a>
+      <a href="./report.json">Fixture report JSON</a>
+      <a href="./txodds-capture-report.json">Captured TxODDS report JSON</a>
+      <a href="https://github.com/chico10117/txodds-worldcup-sentinel">Public repository</a>
+    </nav>
+
+    <footer>
+      <p>Generated at ${escapeHtml(report.generatedAt)}. Fixture analysis time: ${escapeHtml(report.analysisTime)}. Captured payload analysis time: ${escapeHtml(txOddsReport.analysisTime)}.</p>
+    </footer>
+  </main>
 </body>
 </html>
 `;
@@ -853,6 +1175,7 @@ export function renderDemoVideoHtml(report) {
 
     <nav class="links" aria-label="Reviewer links">
       <a href="./index.html">Live MVP report</a>
+      <a href="./judge-brief.html">Judge brief</a>
       <a href="./replay-manifest.json">Replay manifest</a>
       <a href="./report.json">Fixture report JSON</a>
       <a href="./txodds-capture-report.json">Captured TxODDS report JSON</a>
