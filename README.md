@@ -49,9 +49,8 @@ This can become the analysis core for a public MVP:
 - A fan-facing World Cup odds explainer with replayable fixture data and source
   links.
 
-It is not submission-ready by itself. A viable entry still needs a public demo,
-demo video, public repository, and safe live-data integration or clearly labeled
-demo-data mode.
+It is not submission-ready by itself. A viable entry still needs a demo video
+upload and safe live-data integration, or clearly accepted demo-data framing.
 
 ## Public Demo
 
@@ -62,3 +61,14 @@ https://txodds-worldcup-sentinel.vercel.app
 ```
 
 Deployment uses `vercel.json` to run `npm run build` and serve `public/`.
+
+## Public Repository
+
+Current public source repository:
+
+```text
+https://github.com/chico10117/txodds-worldcup-sentinel
+```
+
+See `SUBMISSION.md` for the Superteam field packet and
+`DEMO_VIDEO_SCRIPT.md` for the short demo recording plan.
