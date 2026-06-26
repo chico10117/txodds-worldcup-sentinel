@@ -17,7 +17,7 @@ https://github.com/chico10117/txodds-worldcup-sentinel
 Demo video:
 
 ```text
-Pending upload. Use DEMO_VIDEO_SCRIPT.md for the recording plan.
+https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
 ```
 
 Project name:
@@ -43,6 +43,7 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 - Live public static MVP exists.
 - Public repository exists.
 - Analyzer and static renderer are dependency-free Node scripts.
+- Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS adapter is intentionally not included until a safe wallet/API-token path exists.
 
@@ -51,5 +52,6 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 ```sh
 npm test
 npm run build
+npm run build:video
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
 ```

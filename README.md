@@ -20,6 +20,7 @@ shape testable before a safe API-token route is available.
 ```sh
 npm test
 npm run build
+npm run build:video
 npm run report
 npm run build:demo
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
@@ -72,3 +73,17 @@ https://github.com/chico10117/txodds-worldcup-sentinel
 
 See `SUBMISSION.md` for the Superteam field packet and
 `DEMO_VIDEO_SCRIPT.md` for the short demo recording plan.
+
+## Demo Video
+
+Current captioned demo video:
+
+```text
+https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
+```
+
+The video can be regenerated locally with:
+
+```sh
+npm run build:video
+```
