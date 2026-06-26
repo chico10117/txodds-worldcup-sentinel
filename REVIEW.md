@@ -27,8 +27,9 @@ setup, API keys, paid access, or live network calls.
 - Judge playground: `judge-playground.html` runs the analyzer locally in the
   browser from pasted JSON, without upload or external API calls.
 - Repeatability: `npm test`, `npm run build`, `npm run build:video`,
-  `npm run report:txodds`, and `npm run verify:packet` rebuild and validate the
-  public packet.
+  `npm run report:txodds`, `npm run verify:packet`, and `npm run verify:ci`
+  rebuild and validate the public packet. The public repository also runs
+  `.github/workflows/verify.yml` on pushes, pull requests, and manual dispatch.
 - Safety: the public MVP does not ask for a wallet, private key, seed phrase,
   subscription, API token, or judge-side payment.
 

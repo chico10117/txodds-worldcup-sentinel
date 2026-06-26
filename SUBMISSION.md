@@ -72,6 +72,7 @@ Review path:
 - Captured TxODDS-shaped report JSON: https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
 - Public repo and technical packet: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/SUBMISSION.md
 - Judge review checklist: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/REVIEW.md
+- Public CI workflow: https://github.com/chico10117/txodds-worldcup-sentinel/actions/workflows/verify.yml
 - Raw MP4 fallback: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
 
 The analyzer includes an offline captured-payload normalizer for TxODDS-shaped JSON. The judge playground runs locally in the browser from static JavaScript and does not upload pasted data or call external APIs. A live TxODDS adapter can be added once a safe API-token route is available, while keeping the analyzer and test surface unchanged.
@@ -102,6 +103,9 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
   path.
 - A local public-packet verifier exists at `src/verify-packet.js` and is exposed
   as `npm run verify:packet` after `npm run build`.
+- A public GitHub Actions workflow exists at `.github/workflows/verify.yml` and
+  runs `npm run verify:ci` plus replay-manifest invariants on pushes, pull
+  requests, and manual dispatch.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS network calls are intentionally not included until a safe
@@ -117,6 +121,7 @@ npm run build
 npm run build:video
 npm run report:txodds
 npm run verify:packet
+npm run verify:ci
 jq '{project, mode, commands, artifactCount:(.artifacts|length), safety}' public/replay-manifest.json
 jq '{urls, safety}' public/replay-manifest.json
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z

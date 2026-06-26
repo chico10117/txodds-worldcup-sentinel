@@ -14,6 +14,7 @@ const requiredFiles = [
   "README.md",
   "SUBMISSION.md",
   "REVIEW.md",
+  ".github/workflows/verify.yml",
   "src/analyze.js",
   "src/normalize-txodds.js",
   "src/browser-playground.js",
@@ -75,11 +76,12 @@ async function main() {
 
   assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
   assert(manifest.mode === "demo-data", "manifest mode must stay demo-data");
-  assert(manifest.artifacts.length >= 18, "manifest must include the full review packet");
+  assert(manifest.artifacts.length >= 19, "manifest must include the full review packet");
   assert(manifest.commands.includes("npm run verify:packet"), "manifest must list verifier command");
+  assert(manifest.commands.includes("npm run verify:ci"), "manifest must list CI verifier command");
 
   const artifactPaths = new Set(manifest.artifacts.map((artifact) => artifact.path));
-  for (const path of ["REVIEW.md", "src/verify-packet.js", ...requiredFiles.slice(0, 8)]) {
+  for (const path of ["REVIEW.md", ".github/workflows/verify.yml", "src/verify-packet.js", ...requiredFiles.slice(0, 8)]) {
     assert(artifactPaths.has(path), `manifest is missing artifact ${path}`);
   }
 

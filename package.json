@@ -11,6 +11,7 @@
     "report": "node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z",
     "report:txodds": "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z",
     "test": "node --test",
+    "verify:ci": "npm test && npm run build && npm run verify:packet && node --check src/build-demo.js && node --check src/verify-packet.js && node --check public/playground.js",
     "verify:packet": "node src/verify-packet.js"
   },
   "engines": {

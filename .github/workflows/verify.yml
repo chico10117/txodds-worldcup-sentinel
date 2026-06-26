@@ -1,0 +1,46 @@
+name: Verify TxODDS packet
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install package metadata
+        run: npm install
+
+      - name: Run public packet checks
+        run: npm run verify:ci
+
+      - name: Assert replay manifest invariants
+        run: |
+          jq -e '
+            .project == "TxODDS World Cup Sentinel"
+            and .mode == "demo-data"
+            and (.commands | index("npm run verify:ci"))
+            and (.commands | index("npm run verify:packet"))
+            and (.artifacts | length >= 19)
+            and (.artifacts | map(.path) | index(".github/workflows/verify.yml"))
+            and .safety.noPrivateKeys == true
+            and .safety.noSeedPhrases == true
+            and .safety.noApiTokens == true
+            and .safety.noWalletConnectionRequired == true
+            and .safety.noNetworkCallsInBuild == true
+            and .safety.liveTxOddsCallsIncluded == false
+          ' public/replay-manifest.json
