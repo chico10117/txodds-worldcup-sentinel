@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { analyzeFeed } from "./analyze.js";
 import { normalizeTxOddsPayload } from "./normalize-txodds.js";
-import { renderDemoVideoHtml, renderReportHtml } from "./render-html.js";
+import { renderDemoVideoHtml, renderPlaygroundHtml, renderReportHtml } from "./render-html.js";
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -27,6 +27,10 @@ function parseArgs(argv) {
       artifacts.txOddsReportJsonPath = args[++index];
     } else if (arg === "--demo-video-html") {
       artifacts.demoVideoHtmlPath = args[++index];
+    } else if (arg === "--playground-html") {
+      artifacts.playgroundHtmlPath = args[++index];
+    } else if (arg === "--playground-js") {
+      artifacts.playgroundJsPath = args[++index];
     } else if (arg === "--manifest-json") {
       artifacts.manifestJsonPath = args[++index];
     } else {
@@ -36,7 +40,7 @@ function parseArgs(argv) {
 
   if (!inputPath || !outputPath) {
     throw new Error(
-      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--manifest-json PATH]"
+      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--playground-html PATH --playground-js PATH] [--manifest-json PATH]"
     );
   }
 
@@ -46,6 +50,14 @@ function parseArgs(argv) {
 
   if (artifacts.manifestJsonPath && !artifacts.reportJsonPath) {
     throw new Error("--manifest-json requires --report-json");
+  }
+
+  if (Boolean(artifacts.playgroundHtmlPath) !== Boolean(artifacts.playgroundJsPath)) {
+    throw new Error("--playground-html and --playground-js must be provided together");
+  }
+
+  if (artifacts.playgroundHtmlPath && !artifacts.txOddsInputPath) {
+    throw new Error("--playground-html requires --txodds-input");
   }
 
   return { inputPath, outputPath, options, artifacts };
@@ -116,6 +128,16 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     );
   }
 
+  if (artifacts.playgroundHtmlPath) {
+    manifestArtifacts.splice(
+      2,
+      0,
+      await artifact(artifacts.playgroundHtmlPath, "Public paste-in TxODDS judge playground"),
+      await artifact(artifacts.playgroundJsPath, "Browser-only playground analyzer runtime"),
+      await artifact("src/browser-playground.js", "Source for the browser-only playground runtime")
+    );
+  }
+
   return {
     generatedAt: report.generatedAt,
     project: "TxODDS World Cup Sentinel",
@@ -126,6 +148,8 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
       liveMvp: "https://txodds-worldcup-sentinel.vercel.app",
       publicRepository: "https://github.com/chico10117/txodds-worldcup-sentinel",
       demoVideoPage: "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
+      judgePlayground:
+        "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
       demoVideo:
         "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
       reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",
@@ -183,6 +207,16 @@ async function main() {
     const payload = await readJson(artifacts.txOddsInputPath);
     txOddsReport = analyzeFeed(normalizeTxOddsPayload(payload), options);
     await writeJson(artifacts.txOddsReportJsonPath, txOddsReport);
+
+    if (artifacts.playgroundHtmlPath) {
+      await mkdir(dirname(artifacts.playgroundHtmlPath), { recursive: true });
+      await writeFile(artifacts.playgroundHtmlPath, renderPlaygroundHtml(payload));
+      console.log(`wrote ${artifacts.playgroundHtmlPath}`);
+
+      await mkdir(dirname(artifacts.playgroundJsPath), { recursive: true });
+      await copyFile("src/browser-playground.js", artifacts.playgroundJsPath);
+      console.log(`wrote ${artifacts.playgroundJsPath}`);
+    }
   }
 
   if (artifacts.manifestJsonPath) {

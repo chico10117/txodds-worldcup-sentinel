@@ -34,6 +34,10 @@ function riskLabel(score) {
   return "quiet";
 }
 
+function jsonForScript(value) {
+  return JSON.stringify(value, null, 2).replaceAll("<", "\\u003c");
+}
+
 function flagRows(flags) {
   return flags
     .map(
@@ -431,9 +435,257 @@ export function renderReportHtml(report) {
 
     <footer>
       <p>Demo-data mode only. Live TxODDS integration should use the captured-payload normalizer or an adapter that emits the same feed shape after a safe API-token route exists. This page does not require a wallet, paid subscription, private key, seed phrase, or external network call.</p>
-      <p>Reviewer links: <a href="./demo-video.html">captioned demo video page</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, and <a href="./replay-manifest.json">replay manifest JSON</a>.</p>
+      <p>Reviewer links: <a href="./demo-video.html">captioned demo video page</a>, <a href="./judge-playground.html">paste-in TxODDS judge playground</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, and <a href="./replay-manifest.json">replay manifest JSON</a>.</p>
     </footer>
   </main>
+</body>
+</html>
+`;
+
+  return html.replace(/[ \t]+$/gm, "");
+}
+
+export function renderPlaygroundHtml(samplePayload) {
+  const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TxODDS Judge Playground</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f6f1e8;
+      --muted: #abb6ac;
+      --line: #30362f;
+      --panel: #151914;
+      --page: #090c09;
+      --green: #7dde92;
+      --cyan: #7dd3fc;
+      --amber: #f6c85f;
+      --red: #ff6b5e;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(135deg, rgba(125, 222, 146, 0.10), transparent 28rem),
+        linear-gradient(225deg, rgba(125, 211, 252, 0.10), transparent 24rem),
+        var(--page);
+      color: var(--ink);
+      font-family: "Avenir Next", "Gill Sans", Verdana, sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    h1, h2, p { margin: 0; }
+
+    h1 {
+      max-width: 780px;
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: clamp(2.1rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: 1.35rem;
+      line-height: 1.1;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .brief {
+      margin-top: 16px;
+      color: var(--muted);
+      max-width: 780px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 0.72fr);
+      gap: 18px;
+      margin-top: 28px;
+      align-items: start;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 500px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      background: #0f120e;
+      color: var(--ink);
+      padding: 14px;
+      font: 0.85rem/1.45 Menlo, Consolas, monospace;
+    }
+
+    button {
+      border: 1px solid var(--green);
+      background: #132017;
+      color: var(--green);
+      cursor: pointer;
+      font-weight: 700;
+      min-height: 42px;
+      padding: 0 14px;
+    }
+
+    button.secondary {
+      border-color: var(--line);
+      background: var(--panel);
+      color: var(--cyan);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.86);
+      padding: 16px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      border: 1px solid var(--line);
+      padding: 12px;
+      min-height: 86px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      color: var(--amber);
+      display: block;
+      font-size: 1.55rem;
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 0.7rem;
+      text-align: left;
+      text-transform: uppercase;
+    }
+
+    td, th {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      vertical-align: top;
+    }
+
+    td { font-size: 0.9rem; }
+
+    code {
+      color: var(--cyan);
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.8rem;
+    }
+
+    .error {
+      color: var(--red);
+      margin-top: 12px;
+      min-height: 1.4em;
+    }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 32px;
+      padding-top: 18px;
+      line-height: 1.5;
+    }
+
+    a { color: var(--cyan); }
+
+    @media (max-width: 820px) {
+      main { width: min(100% - 20px, 1120px); padding-top: 22px; }
+      .workspace, .summary { grid-template-columns: 1fr; }
+      textarea { min-height: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">TxODDS World Cup Sentinel / local judge tool</p>
+    <h1>Paste captured TxODDS JSON and analyze it in-browser</h1>
+    <p class="brief">This page runs the same odds, stale-feed, overround, movement, and settlement-drift checks without sending data anywhere. It does not connect a wallet, request a token, call TxODDS, or make network requests.</p>
+
+    <section class="workspace" aria-label="In-browser analyzer workspace">
+      <div>
+        <textarea id="payload" spellcheck="false" aria-label="Captured TxODDS JSON payload"></textarea>
+        <div class="actions">
+          <button id="run-analysis" type="button">Run local analysis</button>
+          <button id="load-sample" class="secondary" type="button">Reload sample payload</button>
+        </div>
+        <p id="error" class="error" role="alert"></p>
+      </div>
+
+      <aside class="panel" aria-live="polite">
+        <p class="eyebrow">Local output</p>
+        <h2>Analyzer result</h2>
+        <div class="summary">
+          <div class="metric"><span>Matches</span><strong id="matches">0</strong></div>
+          <div class="metric"><span>Markets</span><strong id="markets">0</strong></div>
+          <div class="metric"><span>Flags</span><strong id="flags">0</strong></div>
+          <div class="metric"><span>Risk score</span><strong id="risk">0</strong></div>
+        </div>
+        <table aria-label="Top local flags">
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Match</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody id="flag-rows"></tbody>
+        </table>
+      </aside>
+    </section>
+
+    <footer>
+      <p>Sample payload is embedded from the repository fixture. For replay evidence, see <a href="./replay-manifest.json">replay-manifest.json</a>, <a href="./report.json">fixture report JSON</a>, and <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>.</p>
+    </footer>
+  </main>
+  <script type="application/json" id="sample-payload">${jsonForScript(samplePayload)}</script>
+  <script type="module" src="./playground.js"></script>
 </body>
 </html>
 `;
