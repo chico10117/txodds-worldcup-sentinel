@@ -59,7 +59,21 @@ A replayable World Cup odds integrity monitor that turns fixture-shaped TxODDS d
 Anything else:
 
 ```text
-The current public MVP intentionally runs in demo-data mode. It does not ask judges to connect a wallet, pay for access, expose private keys, or use a TxODDS API token. The analyzer is built around a stable feed shape so a live TxODDS adapter can be added once a safe API-token route is available.
+The current public MVP intentionally runs in demo-data mode so judges can review it without a wallet, payment, subscription, private key, seed phrase, or TxODDS API token.
+
+Review path:
+- Judge brief: https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
+- Live MVP: https://txodds-worldcup-sentinel.vercel.app
+- Browser-playable demo video: https://txodds-worldcup-sentinel.vercel.app/demo-video.html
+- Paste-in judge playground: https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
+- Hackathon compliance note: https://txodds-worldcup-sentinel.vercel.app/compliance.html
+- Replay manifest: https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
+- Fixture report JSON: https://txodds-worldcup-sentinel.vercel.app/report.json
+- Captured TxODDS-shaped report JSON: https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
+- Public repo and technical packet: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/SUBMISSION.md
+- Raw MP4 fallback: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
+
+The analyzer includes an offline captured-payload normalizer for TxODDS-shaped JSON. The judge playground runs locally in the browser from static JavaScript and does not upload pasted data or call external APIs. A live TxODDS adapter can be added once a safe API-token route is available, while keeping the analyzer and test surface unchanged.
 ```
 
 ## Status
