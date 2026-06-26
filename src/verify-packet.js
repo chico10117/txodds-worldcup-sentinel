@@ -1,0 +1,140 @@
+#!/usr/bin/env node
+import { readFile } from "node:fs/promises";
+
+const requiredFiles = [
+  "public/index.html",
+  "public/judge-brief.html",
+  "public/compliance.html",
+  "public/demo-video.html",
+  "public/judge-playground.html",
+  "public/playground.js",
+  "public/report.json",
+  "public/txodds-capture-report.json",
+  "public/replay-manifest.json",
+  "README.md",
+  "SUBMISSION.md",
+  "REVIEW.md",
+  "src/analyze.js",
+  "src/normalize-txodds.js",
+  "src/browser-playground.js",
+  "src/verify-packet.js"
+];
+
+function assert(condition, message) {
+  if (!condition) {
+    throw new Error(message);
+  }
+}
+
+async function readText(path) {
+  return readFile(path, "utf8");
+}
+
+async function readJson(path) {
+  return JSON.parse(await readText(path));
+}
+
+async function assertContains(path, fragments) {
+  const text = await readText(path);
+  for (const fragment of fragments) {
+    assert(text.includes(fragment), `${path} is missing ${fragment}`);
+  }
+}
+
+function assertReportSummary(report, expected) {
+  for (const [key, value] of Object.entries(expected)) {
+    assert(
+      report[key] === value,
+      `${report.source ?? "report"} expected ${key}=${value}, got ${report[key]}`
+    );
+  }
+}
+
+async function main() {
+  for (const path of requiredFiles) {
+    await readText(path);
+  }
+
+  const report = await readJson("public/report.json");
+  const txoddsReport = await readJson("public/txodds-capture-report.json");
+  const manifest = await readJson("public/replay-manifest.json");
+
+  assertReportSummary(report, {
+    matchCount: 2,
+    marketCount: 2,
+    flagCount: 10,
+    riskScore: 35
+  });
+
+  assertReportSummary(txoddsReport, {
+    matchCount: 1,
+    marketCount: 1,
+    flagCount: 2,
+    riskScore: 5
+  });
+
+  assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
+  assert(manifest.mode === "demo-data", "manifest mode must stay demo-data");
+  assert(manifest.artifacts.length >= 18, "manifest must include the full review packet");
+  assert(manifest.commands.includes("npm run verify:packet"), "manifest must list verifier command");
+
+  const artifactPaths = new Set(manifest.artifacts.map((artifact) => artifact.path));
+  for (const path of ["REVIEW.md", "src/verify-packet.js", ...requiredFiles.slice(0, 8)]) {
+    assert(artifactPaths.has(path), `manifest is missing artifact ${path}`);
+  }
+
+  const expectedSafety = {
+    noPrivateKeys: true,
+    noSeedPhrases: true,
+    noApiTokens: true,
+    noWalletConnectionRequired: true,
+    noJudgeWalletOrAccountRequired: true,
+    noPaidSubscriptionRequiredForReview: true,
+    noNetworkCallsInBuild: true,
+    liveTxOddsCallsIncluded: false
+  };
+
+  for (const [key, value] of Object.entries(expectedSafety)) {
+    assert(manifest.safety[key] === value, `manifest safety.${key} must be ${value}`);
+  }
+
+  await assertContains("public/index.html", [
+    "World Cup odds integrity watch",
+    "judge-brief.html",
+    "replay-manifest.json"
+  ]);
+  await assertContains("public/judge-brief.html", [
+    "Judge evaluation brief",
+    "Captured TxODDS report"
+  ]);
+  await assertContains("public/compliance.html", [
+    "without wallet or account setup",
+    "API token"
+  ]);
+  await assertContains("public/judge-playground.html", [
+    "Paste captured TxODDS JSON",
+    "does not connect a wallet"
+  ]);
+
+  const playgroundRuntime = await readText("public/playground.js");
+  for (const forbidden of ["fetch(", "XMLHttpRequest", "localStorage", "sessionStorage", "navigator."]) {
+    assert(!playgroundRuntime.includes(forbidden), `playground runtime must not contain ${forbidden}`);
+  }
+
+  const result = {
+    ok: true,
+    project: manifest.project,
+    mode: manifest.mode,
+    artifactCount: manifest.artifacts.length,
+    fixtureRiskScore: report.riskScore,
+    txoddsCaptureRiskScore: txoddsReport.riskScore,
+    safety: manifest.safety
+  };
+
+  console.log(JSON.stringify(result, null, 2));
+}
+
+main().catch((error) => {
+  console.error(`packet verification failed: ${error.message}`);
+  process.exitCode = 1;
+});

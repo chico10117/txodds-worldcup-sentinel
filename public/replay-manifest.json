@@ -20,6 +20,7 @@
     "npm run build",
     "npm run build:video",
     "npm run report:txodds",
+    "npm run verify:packet",
     "node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z",
     "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z"
   ],
@@ -163,14 +164,26 @@
     {
       "path": "package.json",
       "description": "Node scripts and reproducible build entrypoints",
-      "sha256": "95bcd7cc64f19a1febeabf14a172c2e04435566dd717894c893c68b40df9ce0e",
-      "sizeBytes": 1178
+      "sha256": "cc8dd5f12116b6d8cd4748cdb46a3e139d6f91bea8a806b1a534324477888b2c",
+      "sizeBytes": 1290
     },
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "258b27020bc2805260a87544c8d2d1356499957d57f0344e9c726a78a4ab0fc9",
-      "sizeBytes": 3317
+      "sha256": "0c208f91230ad44fa2b7474ef884c4b9178ed5d0d053e4adefff41903a626338",
+      "sizeBytes": 4862
+    },
+    {
+      "path": "REVIEW.md",
+      "description": "Judge review checklist",
+      "sha256": "90b8113b19091a560a03d07c86a6c6e412900f9e018aa5d0f663e7f127796a4a",
+      "sizeBytes": 2550
+    },
+    {
+      "path": "src/verify-packet.js",
+      "description": "Local public-packet verifier",
+      "sha256": "ebfc1fd1c3b6451584207aa9b91f2aaf2c52ad38d90da9a37e18805de24b1eb3",
+      "sizeBytes": 4014
     }
   ],
   "safety": {

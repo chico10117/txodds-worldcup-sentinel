@@ -117,7 +117,9 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     await artifact("src/analyze.js", "Dependency-free odds and settlement analyzer"),
     await artifact("src/render-html.js", "Static HTML renderer"),
     await artifact("package.json", "Node scripts and reproducible build entrypoints"),
-    await artifact("SUBMISSION.md", "Superteam field packet")
+    await artifact("SUBMISSION.md", "Superteam field packet"),
+    await artifact("REVIEW.md", "Judge review checklist"),
+    await artifact("src/verify-packet.js", "Local public-packet verifier")
   ];
 
   if (artifacts.txOddsInputPath && txOddsReport) {
@@ -195,6 +197,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
       "npm run build",
       "npm run build:video",
       "npm run report:txodds",
+      "npm run verify:packet",
       "node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z",
       "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z"
     ],

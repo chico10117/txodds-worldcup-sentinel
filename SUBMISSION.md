@@ -100,6 +100,8 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
 - A judge review checklist exists in `REVIEW.md` to map the live MVP, public
   artifacts, safety posture, and known live-API boundary into a short review
   path.
+- A local public-packet verifier exists at `src/verify-packet.js` and is exposed
+  as `npm run verify:packet` after `npm run build`.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS network calls are intentionally not included until a safe
@@ -114,6 +116,7 @@ npm test
 npm run build
 npm run build:video
 npm run report:txodds
+npm run verify:packet
 jq '{project, mode, commands, artifactCount:(.artifacts|length), safety}' public/replay-manifest.json
 jq '{urls, safety}' public/replay-manifest.json
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
