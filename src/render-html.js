@@ -834,7 +834,7 @@ export function renderJudgeBriefHtml(report, txOddsReport) {
       min-width: 0;
     }
 
-    .panel p, li {
+    .panel p, .panel li {
       color: var(--muted);
       line-height: 1.55;
     }

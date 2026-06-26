@@ -59,8 +59,8 @@
     {
       "path": "public/judge-brief.html",
       "description": "Public judge evaluation brief",
-      "sha256": "f651c14c35c417598b35c32c6b3a5649d3a186eb753ea415de9867d9b9806483",
-      "sizeBytes": 9654
+      "sha256": "80ef75961aa4a17a74ebe7bd79627f4b9973e499f1058b8f2a5004027f09db74",
+      "sizeBytes": 9661
     },
     {
       "path": "public/demo-video.html",
@@ -150,8 +150,8 @@
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "905b23bd4890077eba84fe232b96dfd045f7122c8d48330cc779ebd3507fafdf",
-      "sizeBytes": 32480
+      "sha256": "b9ebd4160968e7f10cdd09712255a2edff09fde5bf77a9eee542d24556bc9124",
+      "sizeBytes": 32487
     },
     {
       "path": "package.json",
