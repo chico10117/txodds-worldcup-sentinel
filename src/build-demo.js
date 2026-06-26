@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { analyzeFeed } from "./analyze.js";
@@ -24,6 +25,8 @@ function parseArgs(argv) {
       artifacts.txOddsInputPath = args[++index];
     } else if (arg === "--txodds-report-json") {
       artifacts.txOddsReportJsonPath = args[++index];
+    } else if (arg === "--manifest-json") {
+      artifacts.manifestJsonPath = args[++index];
     } else {
       throw new Error(`unknown argument: ${arg}`);
     }
@@ -31,12 +34,16 @@ function parseArgs(argv) {
 
   if (!inputPath || !outputPath) {
     throw new Error(
-      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH]"
+      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--manifest-json PATH]"
     );
   }
 
   if (Boolean(artifacts.txOddsInputPath) !== Boolean(artifacts.txOddsReportJsonPath)) {
     throw new Error("--txodds-input and --txodds-report-json must be provided together");
+  }
+
+  if (artifacts.manifestJsonPath && !artifacts.reportJsonPath) {
+    throw new Error("--manifest-json requires --report-json");
   }
 
   return { inputPath, outputPath, options, artifacts };
@@ -52,10 +59,99 @@ async function writeJson(path, data) {
   console.log(`wrote ${path}`);
 }
 
+async function artifact(path, description, summary = undefined) {
+  const bytes = await readFile(path);
+  return {
+    path,
+    description,
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    sizeBytes: bytes.byteLength,
+    ...(summary ? { summary } : {})
+  };
+}
+
+function reportSummary(report) {
+  return {
+    generatedAt: report.generatedAt,
+    matchCount: report.matchCount,
+    marketCount: report.marketCount,
+    flagCount: report.flagCount,
+    riskScore: report.riskScore,
+    topFlagCodes: report.flags.slice(0, 5).map((flag) => flag.code)
+  };
+}
+
+async function buildReplayManifest({ inputPath, outputPath, artifacts, report, txOddsReport }) {
+  const manifestArtifacts = [
+    await artifact(outputPath, "Static public MVP HTML"),
+    await artifact(artifacts.reportJsonPath, "Machine-readable fixture analyzer report", reportSummary(report)),
+    await artifact(inputPath, "Replayable fixture-shaped World Cup feed"),
+    await artifact("src/analyze.js", "Dependency-free odds and settlement analyzer"),
+    await artifact("src/render-html.js", "Static HTML renderer"),
+    await artifact("package.json", "Node scripts and reproducible build entrypoints"),
+    await artifact("SUBMISSION.md", "Superteam field packet")
+  ];
+
+  if (artifacts.txOddsInputPath && txOddsReport) {
+    manifestArtifacts.splice(
+      3,
+      0,
+      await artifact(
+        artifacts.txOddsReportJsonPath,
+        "Machine-readable captured TxODDS-shaped payload report",
+        reportSummary(txOddsReport)
+      ),
+      await artifact(artifacts.txOddsInputPath, "Captured TxODDS-shaped JSON fixture"),
+      await artifact("src/normalize-txodds.js", "Offline TxODDS-shaped payload normalizer")
+    );
+  }
+
+  return {
+    generatedAt: report.generatedAt,
+    project: "TxODDS World Cup Sentinel",
+    mode: "demo-data",
+    purpose:
+      "Replay package for Superteam/TxODDS judges to verify the public MVP without private keys, API tokens, wallet signing, or live network calls.",
+    urls: {
+      liveMvp: "https://txodds-worldcup-sentinel.vercel.app",
+      publicRepository: "https://github.com/chico10117/txodds-worldcup-sentinel",
+      demoVideo:
+        "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
+      reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",
+      txoddsCaptureReportJson:
+        "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
+      replayManifestJson:
+        "https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json"
+    },
+    commands: [
+      "npm test",
+      "npm run build",
+      "npm run build:video",
+      "npm run report:txodds",
+      "node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z",
+      "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z"
+    ],
+    reports: {
+      fixture: reportSummary(report),
+      ...(txOddsReport ? { txoddsCapture: reportSummary(txOddsReport) } : {})
+    },
+    artifacts: manifestArtifacts,
+    safety: {
+      noPrivateKeys: true,
+      noSeedPhrases: true,
+      noApiTokens: true,
+      noWalletConnectionRequired: true,
+      noNetworkCallsInBuild: true,
+      liveTxOddsCallsIncluded: false
+    }
+  };
+}
+
 async function main() {
   const { inputPath, outputPath, options, artifacts } = parseArgs(process.argv.slice(2));
   const feed = await readJson(inputPath);
   const report = analyzeFeed(feed, options);
+  let txOddsReport = null;
   const html = renderReportHtml(report);
 
   await mkdir(dirname(outputPath), { recursive: true });
@@ -68,8 +164,15 @@ async function main() {
 
   if (artifacts.txOddsInputPath) {
     const payload = await readJson(artifacts.txOddsInputPath);
-    const txOddsReport = analyzeFeed(normalizeTxOddsPayload(payload), options);
+    txOddsReport = analyzeFeed(normalizeTxOddsPayload(payload), options);
     await writeJson(artifacts.txOddsReportJsonPath, txOddsReport);
+  }
+
+  if (artifacts.manifestJsonPath) {
+    await writeJson(
+      artifacts.manifestJsonPath,
+      await buildReplayManifest({ inputPath, outputPath, artifacts, report, txOddsReport })
+    );
   }
 }
 

@@ -46,6 +46,9 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
   dependency-free Node scripts.
 - Public machine-readable reports are generated at `/report.json` and
   `/txodds-capture-report.json` for direct judge inspection.
+- A public replay manifest is generated at `/replay-manifest.json` with public
+  links, validation commands, report summaries, SHA-256 artifact hashes, and
+  the no-private-key/no-token safety posture.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS network calls are intentionally not included until a safe
@@ -60,6 +63,7 @@ npm test
 npm run build
 npm run build:video
 npm run report:txodds
+jq '{project, mode, commands, artifactCount:(.artifacts|length), safety}' public/replay-manifest.json
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
 node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z
 ```

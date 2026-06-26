@@ -1,0 +1,144 @@
+{
+  "generatedAt": "2026-06-26T06:20:00.000Z",
+  "project": "TxODDS World Cup Sentinel",
+  "mode": "demo-data",
+  "purpose": "Replay package for Superteam/TxODDS judges to verify the public MVP without private keys, API tokens, wallet signing, or live network calls.",
+  "urls": {
+    "liveMvp": "https://txodds-worldcup-sentinel.vercel.app",
+    "publicRepository": "https://github.com/chico10117/txodds-worldcup-sentinel",
+    "demoVideo": "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
+    "reportJson": "https://txodds-worldcup-sentinel.vercel.app/report.json",
+    "txoddsCaptureReportJson": "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
+    "replayManifestJson": "https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json"
+  },
+  "commands": [
+    "npm test",
+    "npm run build",
+    "npm run build:video",
+    "npm run report:txodds",
+    "node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z",
+    "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z"
+  ],
+  "reports": {
+    "fixture": {
+      "generatedAt": "2026-06-26T06:20:00.000Z",
+      "matchCount": 2,
+      "marketCount": 2,
+      "flagCount": 10,
+      "riskScore": 35,
+      "topFlagCodes": [
+        "EVENT_MARKET_MISMATCH",
+        "LARGE_ODDS_MOVE",
+        "LARGE_ODDS_MOVE",
+        "LARGE_ODDS_MOVE",
+        "LARGE_ODDS_MOVE"
+      ]
+    },
+    "txoddsCapture": {
+      "generatedAt": "2026-06-26T06:20:00.000Z",
+      "matchCount": 1,
+      "marketCount": 1,
+      "flagCount": 2,
+      "riskScore": 5,
+      "topFlagCodes": [
+        "LARGE_ODDS_MOVE",
+        "STALE_FEED"
+      ]
+    }
+  },
+  "artifacts": [
+    {
+      "path": "public/index.html",
+      "description": "Static public MVP HTML",
+      "sha256": "a49515210a228787141e052273ce42302f0ab3eddde6f23e05970bb653099147",
+      "sizeBytes": 14172
+    },
+    {
+      "path": "public/report.json",
+      "description": "Machine-readable fixture analyzer report",
+      "sha256": "7da69bb46a8ea12f611520a72767f776d9cac8458367d4278f7fb963c7cd2313",
+      "sizeBytes": 7485,
+      "summary": {
+        "generatedAt": "2026-06-26T06:20:00.000Z",
+        "matchCount": 2,
+        "marketCount": 2,
+        "flagCount": 10,
+        "riskScore": 35,
+        "topFlagCodes": [
+          "EVENT_MARKET_MISMATCH",
+          "LARGE_ODDS_MOVE",
+          "LARGE_ODDS_MOVE",
+          "LARGE_ODDS_MOVE",
+          "LARGE_ODDS_MOVE"
+        ]
+      }
+    },
+    {
+      "path": "fixtures/sample-worldcup-feed.json",
+      "description": "Replayable fixture-shaped World Cup feed",
+      "sha256": "e192f41e285a665fc45dfd196433f8e76bf9ac55493b63255c7803b56fe465dd",
+      "sizeBytes": 2714
+    },
+    {
+      "path": "public/txodds-capture-report.json",
+      "description": "Machine-readable captured TxODDS-shaped payload report",
+      "sha256": "59d3ca82fc6f6b41ab0a666730fb44eef12677f165b57301478290df629031e0",
+      "sizeBytes": 2225,
+      "summary": {
+        "generatedAt": "2026-06-26T06:20:00.000Z",
+        "matchCount": 1,
+        "marketCount": 1,
+        "flagCount": 2,
+        "riskScore": 5,
+        "topFlagCodes": [
+          "LARGE_ODDS_MOVE",
+          "STALE_FEED"
+        ]
+      }
+    },
+    {
+      "path": "fixtures/sample-txodds-capture.json",
+      "description": "Captured TxODDS-shaped JSON fixture",
+      "sha256": "4758a867827167ac26d355923182d7b5efa84a0921ff790439e03093c4de27a4",
+      "sizeBytes": 1516
+    },
+    {
+      "path": "src/normalize-txodds.js",
+      "description": "Offline TxODDS-shaped payload normalizer",
+      "sha256": "9b54da3ee71fc0ef053b21104b78e19a1a9b47c0de9063b5d65397460434373e",
+      "sizeBytes": 5174
+    },
+    {
+      "path": "src/analyze.js",
+      "description": "Dependency-free odds and settlement analyzer",
+      "sha256": "2df9c4b4ff97317c4955bd35a47a376f52706cfa4bcec84968272be9d8406b7c",
+      "sizeBytes": 6497
+    },
+    {
+      "path": "src/render-html.js",
+      "description": "Static HTML renderer",
+      "sha256": "89b6d1dad5182457525f0518fa86bc95394557419bcee80c7ec2c2ce54350264",
+      "sizeBytes": 11691
+    },
+    {
+      "path": "package.json",
+      "description": "Node scripts and reproducible build entrypoints",
+      "sha256": "2b1a8cd962d7f4f466de06846c0ea8f90d1cfe06b6d8fe5479dc6385d1466aaa",
+      "sizeBytes": 969
+    },
+    {
+      "path": "SUBMISSION.md",
+      "description": "Superteam field packet",
+      "sha256": "e792134184ea9ba77b9cbd65530427fba2621df5bbd2e311c43f0ee17fcb423a",
+      "sizeBytes": 2274
+    }
+  ],
+  "safety": {
+    "noPrivateKeys": true,
+    "noSeedPhrases": true,
+    "noApiTokens": true,
+    "noWalletConnectionRequired": true,
+    "noNetworkCallsInBuild": true,
+    "liveTxOddsCallsIncluded": false
+  }
+}

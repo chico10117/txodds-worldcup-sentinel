@@ -30,9 +30,10 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score. The demo build writes `public/index.html`, `public/report.json`, and
-`public/txodds-capture-report.json` so judges can inspect the rendered report and
-the machine-readable analyzer output without a backend.
+risk score. The demo build writes `public/index.html`, `public/report.json`,
+`public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges
+can inspect the rendered report, machine-readable analyzer output, replay
+commands, artifact hashes, and safety assumptions without a backend.
 
 ## Live API Boundary
 
@@ -76,7 +77,12 @@ Machine-readable public reports:
 ```text
 https://txodds-worldcup-sentinel.vercel.app/report.json
 https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
+https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
 ```
+
+The replay manifest records the public URLs, validation commands, report
+summaries, SHA-256 hashes for the generated outputs and key source files, and
+the no-private-key/no-token/no-network-call safety posture.
 
 ## Public Repository
 
