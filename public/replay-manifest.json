@@ -34,6 +34,7 @@
       "flagCount": 10,
       "riskScore": 35,
       "recommendedActionCount": 4,
+      "automationReadinessState": "blocked",
       "topRecommendedActions": [
         "EVENT_MARKET_MISMATCH",
         "SETTLEMENT_DRIFT",
@@ -54,6 +55,7 @@
       "flagCount": 2,
       "riskScore": 5,
       "recommendedActionCount": 2,
+      "automationReadinessState": "blocked",
       "topRecommendedActions": [
         "LARGE_ODDS_MOVE",
         "STALE_FEED"
@@ -68,14 +70,14 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "aa92970149966b0402749547dbc86f483803ca9dba22bc24a100b278a08c1bc9",
-      "sizeBytes": 16950
+      "sha256": "4660ea56fa003b616f198a4eca9d23b183b2d0c2ead1425399be840af75ea0bc",
+      "sizeBytes": 18292
     },
     {
       "path": "public/judge-brief.html",
       "description": "Public judge evaluation brief",
-      "sha256": "6e74056418b7eef64c126039b88c94bd6d6664ab59feb40a869ad2b84746edef",
-      "sizeBytes": 12770
+      "sha256": "06589ef0b42806df02d454a7ee692a1ef5fd872000555222928b0d1fb686fb9b",
+      "sizeBytes": 14743
     },
     {
       "path": "public/compliance.html",
@@ -92,26 +94,26 @@
     {
       "path": "public/judge-playground.html",
       "description": "Public paste-in TxODDS judge playground",
-      "sha256": "d142b1481d7a3788afd84df0133b2a51d13e546aea65fd112249645f348c6b9e",
-      "sizeBytes": 7865
+      "sha256": "aeba25d893bb12d799328bbca78f99c82bba2aa397f097b1479a170602596cee",
+      "sizeBytes": 7973
     },
     {
       "path": "public/playground.js",
       "description": "Browser-only playground analyzer runtime",
-      "sha256": "4bb0ed381d06b19bdcf997b6118ade8d5ef4a019320ace2d83974d51ffa0a739",
-      "sizeBytes": 16856
+      "sha256": "c020f65fdae7160de65d828c946d25be1ceabbaab1fe1e3884560d0df641d9b7",
+      "sizeBytes": 19213
     },
     {
       "path": "src/browser-playground.js",
       "description": "Source for the browser-only playground runtime",
-      "sha256": "4bb0ed381d06b19bdcf997b6118ade8d5ef4a019320ace2d83974d51ffa0a739",
-      "sizeBytes": 16856
+      "sha256": "c020f65fdae7160de65d828c946d25be1ceabbaab1fe1e3884560d0df641d9b7",
+      "sizeBytes": 19213
     },
     {
       "path": "public/report.json",
       "description": "Machine-readable fixture analyzer report",
-      "sha256": "d19af8f55c6c3c0760d6726a8b4115afc49bf1324b8e38bc64d255eddd65b034",
-      "sizeBytes": 9829,
+      "sha256": "3cc3d4a140ff840b6944cdd57a1da36799782ac99d6fa57cfc349e24c3cf8588",
+      "sizeBytes": 11000,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 2,
@@ -119,6 +121,7 @@
         "flagCount": 10,
         "riskScore": 35,
         "recommendedActionCount": 4,
+        "automationReadinessState": "blocked",
         "topRecommendedActions": [
           "EVENT_MARKET_MISMATCH",
           "SETTLEMENT_DRIFT",
@@ -142,8 +145,8 @@
     {
       "path": "public/txodds-capture-report.json",
       "description": "Machine-readable captured TxODDS-shaped payload report",
-      "sha256": "9f35a29302422074d8b448a9eeb2a6415d35b9004d0c1c8bb5cd9e40d29960a9",
-      "sizeBytes": 3351,
+      "sha256": "f1138136982603f3803284126fa8e7e60164a11a1da4d3362eba6bfbd9a12ffb",
+      "sizeBytes": 4127,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 1,
@@ -151,6 +154,7 @@
         "flagCount": 2,
         "riskScore": 5,
         "recommendedActionCount": 2,
+        "automationReadinessState": "blocked",
         "topRecommendedActions": [
           "LARGE_ODDS_MOVE",
           "STALE_FEED"
@@ -176,14 +180,14 @@
     {
       "path": "src/analyze.js",
       "description": "Dependency-free odds and settlement analyzer",
-      "sha256": "b734b7930675d679cff20b638ef0b2e018c3318ccd3f42f5907de3b60185eb7a",
-      "sizeBytes": 10681
+      "sha256": "2a9a2f3077a03763b65f36a75fc8171a21707e5966486a78822107814cb09b72",
+      "sizeBytes": 12989
     },
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "dab85f63703e38171d82746973f833ac809b03534f61b6b2318b3aaae4d999f1",
-      "sizeBytes": 41876
+      "sha256": "a881724ccbcaf90731960256fffa1648b1da05fd501bcb57247b77d58509bc78",
+      "sizeBytes": 45539
     },
     {
       "path": "package.json",
@@ -200,26 +204,26 @@
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "43d1cad5c16d6b67b844750dcc42380d5b2e84657b8eef2deac743ee7e019587",
-      "sizeBytes": 5682
+      "sha256": "be9de695e94f987a90500c4e9da4f7e02deb5abba791ce8d938229054e0934f0",
+      "sizeBytes": 5715
     },
     {
       "path": "REVIEW.md",
       "description": "Judge review checklist",
-      "sha256": "1a381a9ccfedcffbbc53529706670a533e47a07eda81951d909dd0a251d29a57",
-      "sizeBytes": 3225
+      "sha256": "bad4ac43637e683434d83fa05793a7c183a661b0ac0845a91f8192db93da4a19",
+      "sizeBytes": 3426
     },
     {
       "path": "public/.well-known/ai.txt",
       "description": "AI-readable public review manifest",
-      "sha256": "d8004f759be7fbc0a81ff3a09c4e62a0dc67bafd0d4d8922352b052550a00100",
-      "sizeBytes": 1981
+      "sha256": "f5e3ee412792df895c8da08dfed350ea85aa07ec9a71d0401bcd736c72d6dc9b",
+      "sizeBytes": 2109
     },
     {
       "path": "src/verify-packet.js",
       "description": "Local public-packet verifier",
-      "sha256": "9e3944c590898762409df086aa87f84aba33d65e67500e2bcfef6c06bb837c42",
-      "sizeBytes": 4757
+      "sha256": "53455d1cfa5d5c81a4e8abf411326592c97740b0ea54315aaa0d0aaf76865f5a",
+      "sizeBytes": 5463
     }
   ],
   "safety": {

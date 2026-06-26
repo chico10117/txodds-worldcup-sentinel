@@ -297,6 +297,62 @@ function buildRecommendedActions(flags) {
     );
 }
 
+function marketReadiness(market) {
+  const highestMarketSeverity = highestSeverity(market.flags);
+  const state =
+    highestMarketSeverity === "high" ? "blocked" : market.flags.length ? "review" : "ready";
+
+  return {
+    matchId: market.matchId,
+    marketId: market.marketId,
+    name: market.name,
+    state,
+    highestSeverity: highestMarketSeverity,
+    flagCodes: [...new Set(market.flags.map((flag) => flag.code))].sort()
+  };
+}
+
+function buildAutomationReadiness(markets, flags) {
+  const flagCodes = new Set(flags.map((flag) => flag.code));
+  const marketStates = markets.map(marketReadiness);
+  const blockedMarketCount = marketStates.filter((market) => market.state === "blocked").length;
+  const reviewMarketCount = marketStates.filter((market) => market.state === "review").length;
+  const readyMarketCount = marketStates.filter((market) => market.state === "ready").length;
+  const state = blockedMarketCount > 0 ? "blocked" : reviewMarketCount > 0 ? "review" : "ready";
+
+  return {
+    state,
+    agentInstruction:
+      state === "blocked"
+        ? "Do not automate settlement, trading, or quoting until the blocking flags are cleared."
+        : state === "review"
+          ? "Allow read-only monitoring, but require operator review before downstream action."
+          : "No analyzer gate is blocking automated read-only decisions for this snapshot.",
+    checks: {
+      settlementReady:
+        !flagCodes.has("EVENT_MARKET_MISMATCH") && !flagCodes.has("SETTLEMENT_DRIFT"),
+      tradingReady: !(
+        flagCodes.has("EVENT_MARKET_MISMATCH") ||
+        flagCodes.has("SETTLEMENT_DRIFT") ||
+        flagCodes.has("LARGE_ODDS_MOVE") ||
+        flagCodes.has("STALE_FEED")
+      ),
+      quotingReady: !(flagCodes.has("STALE_FEED") || flagCodes.has("OVERROUND_OUTLIER")),
+      requiresHumanReview: flags.length > 0
+    },
+    marketCounts: {
+      total: marketStates.length,
+      ready: readyMarketCount,
+      review: reviewMarketCount,
+      blocked: blockedMarketCount
+    },
+    blockingFlagCodes: [...flagCodes]
+      .filter((code) => ["EVENT_MARKET_MISMATCH", "SETTLEMENT_DRIFT", "LARGE_ODDS_MOVE"].includes(code))
+      .sort(),
+    markets: marketStates
+  };
+}
+
 export function analyzeFeed(feed, options = {}) {
   const normalizedOptions = normalizeOptions(options);
   const matches = feed.matches ?? [];
@@ -316,6 +372,7 @@ export function analyzeFeed(feed, options = {}) {
     (left, right) => right.score - left.score || left.code.localeCompare(right.code)
   );
   const recommendedActions = buildRecommendedActions(sortedFlags);
+  const automationReadiness = buildAutomationReadiness(marketSummaries, sortedFlags);
 
   return {
     generatedAt: normalizedOptions.generatedAt ?? new Date().toISOString(),
@@ -328,6 +385,7 @@ export function analyzeFeed(feed, options = {}) {
     flagCount: flags.length,
     recommendedActionCount: recommendedActions.length,
     recommendedActions,
+    automationReadiness,
     flags: sortedFlags,
     markets: marketSummaries
   };

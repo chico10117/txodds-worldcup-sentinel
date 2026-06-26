@@ -24,6 +24,8 @@ What the analyzer returns:
 - deterministic recommended agent actions, including pause settlement
   automation, require cross-source review, throttle trading decisions, and
   refresh stale feeds before action
+- automation readiness gates that mark markets as ready, review, or blocked
+  before trading, quoting, or settlement automation
 - market-level odds, implied probabilities, movement from previous odds, age,
   overround, and report-level risk score
 

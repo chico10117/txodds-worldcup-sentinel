@@ -72,6 +72,53 @@
       ]
     }
   ],
+  "automationReadiness": {
+    "state": "blocked",
+    "agentInstruction": "Do not automate settlement, trading, or quoting until the blocking flags are cleared.",
+    "checks": {
+      "settlementReady": false,
+      "tradingReady": false,
+      "quotingReady": false,
+      "requiresHumanReview": true
+    },
+    "marketCounts": {
+      "total": 2,
+      "ready": 0,
+      "review": 0,
+      "blocked": 2
+    },
+    "blockingFlagCodes": [
+      "EVENT_MARKET_MISMATCH",
+      "LARGE_ODDS_MOVE",
+      "SETTLEMENT_DRIFT"
+    ],
+    "markets": [
+      {
+        "matchId": "wc-arg-bra-20260627",
+        "marketId": "match_winner",
+        "name": "Match winner",
+        "state": "blocked",
+        "highestSeverity": "high",
+        "flagCodes": [
+          "LARGE_ODDS_MOVE",
+          "STALE_FEED"
+        ]
+      },
+      {
+        "matchId": "wc-fra-ger-20260626",
+        "marketId": "match_winner",
+        "name": "Match winner",
+        "state": "blocked",
+        "highestSeverity": "high",
+        "flagCodes": [
+          "EVENT_MARKET_MISMATCH",
+          "LARGE_ODDS_MOVE",
+          "SETTLEMENT_DRIFT",
+          "STALE_FEED"
+        ]
+      }
+    ]
+  },
   "flags": [
     {
       "code": "EVENT_MARKET_MISMATCH",

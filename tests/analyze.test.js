@@ -108,6 +108,14 @@ test("flags finished events whose external settlement is still open", () => {
   );
   assert.ok(report.flags.some((flag) => flag.code === "SETTLEMENT_DRIFT"));
   assert.ok(report.riskScore > 0);
+  assert.equal(report.automationReadiness.state, "blocked");
+  assert.equal(report.automationReadiness.checks.settlementReady, false);
+  assert.equal(report.automationReadiness.checks.tradingReady, false);
+  assert.equal(report.automationReadiness.marketCounts.blocked, 1);
+  assert.deepEqual(report.automationReadiness.blockingFlagCodes, [
+    "EVENT_MARKET_MISMATCH",
+    "SETTLEMENT_DRIFT"
+  ]);
 });
 
 test("builds deterministic recommended agent actions from flags", () => {
@@ -153,4 +161,41 @@ test("builds deterministic recommended agent actions from flags", () => {
   );
   assert.equal(report.recommendedActions[0].title, "Pause settlement automation");
   assert.deepEqual(report.recommendedActions[0].matches, ["match-3"]);
+});
+
+test("marks clean reports ready for automated read-only decisions", () => {
+  const report = analyzeFeed(
+    {
+      generatedAt: "2026-06-26T06:00:00.000Z",
+      matches: [
+        {
+          id: "match-4",
+          status: "not_started",
+          eventState: { phase: "pre_match" },
+          markets: [
+            {
+              id: "winner",
+              name: "Winner",
+              provider: "fixture",
+              lastUpdated: "2026-06-26T05:59:00.000Z",
+              selections: [
+                { name: "Home", odds: 2 },
+                { name: "Draw", odds: 4 },
+                { name: "Away", odds: 4 }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    { now: "2026-06-26T06:00:00.000Z" }
+  );
+
+  assert.equal(report.flagCount, 0);
+  assert.equal(report.automationReadiness.state, "ready");
+  assert.equal(report.automationReadiness.checks.settlementReady, true);
+  assert.equal(report.automationReadiness.checks.tradingReady, true);
+  assert.equal(report.automationReadiness.checks.quotingReady, true);
+  assert.equal(report.automationReadiness.checks.requiresHumanReview, false);
+  assert.equal(report.automationReadiness.marketCounts.ready, 1);
 });

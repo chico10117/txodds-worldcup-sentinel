@@ -92,6 +92,44 @@ function actionRows(actions, options = {}) {
     .join("");
 }
 
+function readinessRows(readiness) {
+  if (!readiness?.markets?.length) {
+    return '<tr><td colspan="5">No markets available for readiness gating.</td></tr>';
+  }
+
+  return readiness.markets
+    .map(
+      (market) => `
+        <tr>
+          <td><span class="signal ${severityClass(market.highestSeverity)}">${escapeHtml(market.state)}</span></td>
+          <td>${escapeHtml(market.matchId)}</td>
+          <td>${escapeHtml(market.marketId)}</td>
+          <td>${escapeHtml(market.name)}</td>
+          <td>${escapeHtml(market.flagCodes.length ? market.flagCodes.join(", ") : "none")}</td>
+        </tr>`
+    )
+    .join("");
+}
+
+function readinessCheckRows(readiness) {
+  const checks = readiness?.checks ?? {};
+  return [
+    ["Settlement ready", checks.settlementReady],
+    ["Trading ready", checks.tradingReady],
+    ["Quoting ready", checks.quotingReady],
+    ["Needs human review", checks.requiresHumanReview]
+  ]
+    .map(([label, value]) => {
+      const shouldAlert = label === "Needs human review" ? value : !value;
+      return `
+        <tr>
+          <td>${escapeHtml(label)}</td>
+          <td><span class="signal ${shouldAlert ? "sev-high" : "sev-low"}">${escapeHtml(value ? "yes" : "no")}</span></td>
+        </tr>`;
+    })
+    .join("");
+}
+
 function selectionRows(selections) {
   return selections
     .map((selection) => {
@@ -167,6 +205,7 @@ function marketPanels(markets) {
 export function renderReportHtml(report) {
   const topFlags = report.flags.slice(0, 8);
   const status = riskLabel(report.riskScore);
+  const readiness = report.automationReadiness;
 
   const html = `<!doctype html>
 <html lang="en">
@@ -432,9 +471,11 @@ export function renderReportHtml(report) {
       </div>
       <aside class="status-board" aria-label="Report summary">
         <div class="metric status"><span>Risk state</span><strong>${escapeHtml(status)}</strong></div>
+        <div class="metric status"><span>Automation gate</span><strong>${escapeHtml(readiness?.state ?? "unknown")}</strong></div>
         <div class="metric"><span>Risk score</span><strong>${escapeHtml(report.riskScore)}</strong></div>
         <div class="metric"><span>Markets</span><strong>${escapeHtml(report.marketCount)}</strong></div>
         <div class="metric"><span>Flags</span><strong>${escapeHtml(report.flagCount)}</strong></div>
+        <div class="metric"><span>Ready markets</span><strong>${escapeHtml(readiness?.marketCounts?.ready ?? 0)}/${escapeHtml(readiness?.marketCounts?.total ?? 0)}</strong></div>
       </aside>
     </header>
 
@@ -459,6 +500,32 @@ export function renderReportHtml(report) {
           </thead>
           <tbody>
             ${flagRows(topFlags)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Automation readiness</p>
+          <h2>Can an agent act on this snapshot?</h2>
+        </div>
+        <p>${escapeHtml(readiness?.agentInstruction ?? "No automation readiness summary is available.")}</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th>Gate</th>
+              <th>Match</th>
+              <th>Market</th>
+              <th>Name</th>
+              <th>Reasons</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${readinessRows(readiness)}
           </tbody>
         </table>
       </div>
@@ -736,6 +803,7 @@ export function renderPlaygroundHtml(samplePayload) {
           <div class="metric"><span>Markets</span><strong id="markets">0</strong></div>
           <div class="metric"><span>Flags</span><strong id="flags">0</strong></div>
           <div class="metric"><span>Risk score</span><strong id="risk">0</strong></div>
+          <div class="metric"><span>Automation gate</span><strong id="automation-gate">ready</strong></div>
         </div>
         <table aria-label="Top local flags">
           <thead>
@@ -981,6 +1049,8 @@ export function renderJudgeBriefHtml(report, txOddsReport) {
       <div class="metric"><span>Fixture flags</span><strong>${escapeHtml(report.flagCount)}</strong></div>
       <div class="metric"><span>Captured TxODDS report</span><strong>${escapeHtml(txOddsState)}</strong></div>
       <div class="metric"><span>Agent actions</span><strong>${escapeHtml(report.recommendedActionCount + txOddsReport.recommendedActionCount)}</strong></div>
+      <div class="metric"><span>Fixture gate</span><strong>${escapeHtml(report.automationReadiness?.state ?? "unknown")}</strong></div>
+      <div class="metric"><span>Captured gate</span><strong>${escapeHtml(txOddsReport.automationReadiness?.state ?? "unknown")}</strong></div>
     </section>
 
     <section class="grid">
@@ -1016,6 +1086,40 @@ export function renderJudgeBriefHtml(report, txOddsReport) {
           </thead>
           <tbody>
             ${actionRows(txOddsReport.recommendedActions, { compact: true })}
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <p class="eyebrow">Automation readiness</p>
+        <h2>Fixture safety gates</h2>
+        <table aria-label="Fixture report automation readiness checks">
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${readinessCheckRows(report.automationReadiness)}
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Captured payload readiness</p>
+        <h2>TxODDS-shaped gates</h2>
+        <table aria-label="Captured TxODDS automation readiness checks">
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${readinessCheckRows(txOddsReport.automationReadiness)}
           </tbody>
         </table>
       </article>

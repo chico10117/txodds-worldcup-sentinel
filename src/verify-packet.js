@@ -76,12 +76,28 @@ async function main() {
     riskScore: 5,
     recommendedActionCount: 2
   });
+  assert(
+    report.automationReadiness?.state === "blocked",
+    "fixture report must expose blocked automation readiness"
+  );
+  assert(
+    txoddsReport.automationReadiness?.state === "blocked",
+    "captured TxODDS report must expose blocked automation readiness"
+  );
 
   assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
   assert(manifest.mode === "demo-data", "manifest mode must stay demo-data");
   assert(manifest.artifacts.length >= 20, "manifest must include the full review packet");
   assert(manifest.commands.includes("npm run verify:packet"), "manifest must list verifier command");
   assert(manifest.commands.includes("npm run verify:ci"), "manifest must list CI verifier command");
+  assert(
+    manifest.reports.fixture.automationReadinessState === "blocked",
+    "fixture manifest summary must include automation readiness"
+  );
+  assert(
+    manifest.reports.txoddsCapture.automationReadinessState === "blocked",
+    "captured manifest summary must include automation readiness"
+  );
 
   const artifactPaths = new Set(manifest.artifacts.map((artifact) => artifact.path));
   for (const path of [
@@ -112,6 +128,8 @@ async function main() {
   await assertContains("public/index.html", [
     "World Cup odds integrity watch",
     "What an automated strategy should do",
+    "Can an agent act on this snapshot?",
+    "Automation gate",
     "Pause settlement automation",
     "judge-brief.html",
     ".well-known/ai.txt",
@@ -120,7 +138,8 @@ async function main() {
   await assertContains("public/judge-brief.html", [
     "Judge evaluation brief",
     "Captured TxODDS report",
-    "Strategy guardrails"
+    "Strategy guardrails",
+    "Fixture safety gates"
   ]);
   await assertContains("public/compliance.html", [
     "without wallet or account setup",
@@ -133,6 +152,7 @@ async function main() {
   await assertContains("public/.well-known/ai.txt", [
     "TxODDS World Cup Sentinel",
     "deterministic recommended agent actions",
+    "automation readiness gates",
     "no private keys"
   ]);
 

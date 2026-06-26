@@ -63,6 +63,9 @@ test("renders a deterministic static demo report", () => {
   assert.match(html, /70m settlement lag/);
   assert.match(html, /What an automated strategy should do/);
   assert.match(html, /Pause settlement automation/);
+  assert.match(html, /Automation gate/);
+  assert.match(html, /Can an agent act on this snapshot\?/);
+  assert.match(html, /Do not automate settlement, trading, or quoting/);
   assert.match(html, /report\.json/);
   assert.match(html, /txodds-capture-report\.json/);
   assert.match(html, /replay-manifest\.json/);
@@ -136,6 +139,7 @@ test("renders a browser-only judge playground with escaped sample payload", () =
   assert.match(html, /Paste captured TxODDS JSON/);
   assert.match(html, /Run local analysis/);
   assert.match(html, /playground\.js/);
+  assert.match(html, /Automation gate/);
   assert.match(html, /does not connect a wallet/);
   assert.match(html, /judge-brief\.html/);
   assert.match(html, /compliance\.html/);
@@ -216,6 +220,8 @@ test("renders a judge evaluation brief with escaped report data", () => {
   assert.match(html, /Fixture report/);
   assert.match(html, /Captured TxODDS report/);
   assert.match(html, /Strategy guardrails/);
+  assert.match(html, /Automation readiness/);
+  assert.match(html, /Fixture safety gates/);
   assert.match(html, /Pause settlement automation/);
   assert.match(html, /does not connect a wallet/);
   assert.match(html, /compliance\.html/);

@@ -19,6 +19,8 @@ route is available.
 - Drift between TxODDS-style implied probability and an external market source.
 - Deterministic recommended agent actions, such as pausing settlement
   automation, refreshing stale feeds, or throttling trading decisions.
+- A market-level automation readiness gate that marks snapshots as `ready`,
+  `review`, or `blocked` before trading, quoting, or settlement automation.
 
 ## Run
 
@@ -36,7 +38,7 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score plus recommended agent actions. The demo build writes `public/index.html`,
+risk score, recommended agent actions, and automation readiness gates. The demo build writes `public/index.html`,
 `public/judge-brief.html`, `public/compliance.html`, `public/demo-video.html`,
 `public/judge-playground.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges

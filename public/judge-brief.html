@@ -212,6 +212,8 @@
       <div class="metric"><span>Fixture flags</span><strong>10</strong></div>
       <div class="metric"><span>Captured TxODDS report</span><strong>quiet</strong></div>
       <div class="metric"><span>Agent actions</span><strong>6</strong></div>
+      <div class="metric"><span>Fixture gate</span><strong>blocked</strong></div>
+      <div class="metric"><span>Captured gate</span><strong>blocked</strong></div>
     </section>
 
     <section class="grid">
@@ -288,6 +290,72 @@
           <td><strong>Refresh the feed before action</strong><br><code>STALE_FEED</code></td>
 
           <td>Pull a newer provider snapshot or suppress the market until the update age returns inside threshold.</td>
+        </tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <p class="eyebrow">Automation readiness</p>
+        <h2>Fixture safety gates</h2>
+        <table aria-label="Fixture report automation readiness checks">
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td>Settlement ready</td>
+          <td><span class="signal sev-high">no</span></td>
+        </tr>
+        <tr>
+          <td>Trading ready</td>
+          <td><span class="signal sev-high">no</span></td>
+        </tr>
+        <tr>
+          <td>Quoting ready</td>
+          <td><span class="signal sev-high">no</span></td>
+        </tr>
+        <tr>
+          <td>Needs human review</td>
+          <td><span class="signal sev-high">yes</span></td>
+        </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Captured payload readiness</p>
+        <h2>TxODDS-shaped gates</h2>
+        <table aria-label="Captured TxODDS automation readiness checks">
+          <thead>
+            <tr>
+              <th>Check</th>
+              <th>State</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td>Settlement ready</td>
+          <td><span class="signal sev-low">yes</span></td>
+        </tr>
+        <tr>
+          <td>Trading ready</td>
+          <td><span class="signal sev-high">no</span></td>
+        </tr>
+        <tr>
+          <td>Quoting ready</td>
+          <td><span class="signal sev-high">no</span></td>
+        </tr>
+        <tr>
+          <td>Needs human review</td>
+          <td><span class="signal sev-high">yes</span></td>
         </tr>
           </tbody>
         </table>

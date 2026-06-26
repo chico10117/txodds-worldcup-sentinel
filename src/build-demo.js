@@ -106,6 +106,7 @@ function reportSummary(report) {
     flagCount: report.flagCount,
     riskScore: report.riskScore,
     recommendedActionCount: report.recommendedActionCount,
+    automationReadinessState: report.automationReadiness?.state ?? null,
     topRecommendedActions: report.recommendedActions.slice(0, 3).map((action) => action.code),
     topFlagCodes: report.flags.slice(0, 5).map((flag) => flag.code)
   };

@@ -27,6 +27,9 @@ setup, API keys, paid access, or live network calls.
 - Agent actions: the report turns those flags into deterministic next steps
   such as pausing settlement automation, refreshing stale feeds, or throttling
   trading decisions.
+- Automation readiness: the report emits market-level `ready`, `review`, or
+  `blocked` gates so an agent can avoid unsafe trading, quoting, or settlement
+  automation when blocking flags are present.
 - TxODDS-shaped input boundary: `src/normalize-txodds.js` converts captured
   `events`, `fixtures`, or `matches` payloads into the same analyzer feed shape.
 - Judge playground: `judge-playground.html` runs the analyzer locally in the

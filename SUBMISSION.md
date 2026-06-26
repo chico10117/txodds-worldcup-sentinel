@@ -93,7 +93,8 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
   dependency-free Node scripts.
 - Public machine-readable reports are generated at `/report.json` and
   `/txodds-capture-report.json` for direct judge inspection, including
-  recommended agent actions derived from the ranked flags.
+  recommended agent actions and automation readiness gates derived from the
+  ranked flags.
 - A public judge evaluation brief is generated at `/judge-brief.html` with the
   fixture report, captured TxODDS report, replay path, and safety posture on one
   static page.

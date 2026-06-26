@@ -262,9 +262,11 @@
       </div>
       <aside class="status-board" aria-label="Report summary">
         <div class="metric status"><span>Risk state</span><strong>elevated</strong></div>
+        <div class="metric status"><span>Automation gate</span><strong>blocked</strong></div>
         <div class="metric"><span>Risk score</span><strong>35</strong></div>
         <div class="metric"><span>Markets</span><strong>2</strong></div>
         <div class="metric"><span>Flags</span><strong>10</strong></div>
+        <div class="metric"><span>Ready markets</span><strong>0/2</strong></div>
       </aside>
     </header>
 
@@ -344,6 +346,46 @@
           <td>wc-fra-ger-20260626</td>
           <td>Match winner last updated 50 minutes ago</td>
           <td class="num">3</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Automation readiness</p>
+          <h2>Can an agent act on this snapshot?</h2>
+        </div>
+        <p>Do not automate settlement, trading, or quoting until the blocking flags are cleared.</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th>Gate</th>
+              <th>Match</th>
+              <th>Market</th>
+              <th>Name</th>
+              <th>Reasons</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td><span class="signal sev-high">blocked</span></td>
+          <td>wc-arg-bra-20260627</td>
+          <td>match_winner</td>
+          <td>Match winner</td>
+          <td>LARGE_ODDS_MOVE, STALE_FEED</td>
+        </tr>
+        <tr>
+          <td><span class="signal sev-high">blocked</span></td>
+          <td>wc-fra-ger-20260626</td>
+          <td>match_winner</td>
+          <td>Match winner</td>
+          <td>EVENT_MARKET_MISMATCH, LARGE_ODDS_MOVE, SETTLEMENT_DRIFT, STALE_FEED</td>
         </tr>
           </tbody>
         </table>

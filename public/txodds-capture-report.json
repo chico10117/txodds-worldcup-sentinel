@@ -40,6 +40,38 @@
       ]
     }
   ],
+  "automationReadiness": {
+    "state": "blocked",
+    "agentInstruction": "Do not automate settlement, trading, or quoting until the blocking flags are cleared.",
+    "checks": {
+      "settlementReady": true,
+      "tradingReady": false,
+      "quotingReady": false,
+      "requiresHumanReview": true
+    },
+    "marketCounts": {
+      "total": 1,
+      "ready": 0,
+      "review": 0,
+      "blocked": 1
+    },
+    "blockingFlagCodes": [
+      "LARGE_ODDS_MOVE"
+    ],
+    "markets": [
+      {
+        "matchId": "tx-wc-arg-bra-20260627",
+        "marketId": "match_winner",
+        "name": "Match winner",
+        "state": "blocked",
+        "highestSeverity": "high",
+        "flagCodes": [
+          "LARGE_ODDS_MOVE",
+          "STALE_FEED"
+        ]
+      }
+    ]
+  },
   "flags": [
     {
       "code": "LARGE_ODDS_MOVE",
