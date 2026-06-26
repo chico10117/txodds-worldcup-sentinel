@@ -71,6 +71,7 @@ Review path:
 - Fixture report JSON: https://txodds-worldcup-sentinel.vercel.app/report.json
 - Captured TxODDS-shaped report JSON: https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
 - Public repo and technical packet: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/SUBMISSION.md
+- Judge review checklist: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/REVIEW.md
 - Raw MP4 fallback: https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
 
 The analyzer includes an offline captured-payload normalizer for TxODDS-shaped JSON. The judge playground runs locally in the browser from static JavaScript and does not upload pasted data or call external APIs. A live TxODDS adapter can be added once a safe API-token route is available, while keeping the analyzer and test surface unchanged.
@@ -96,6 +97,9 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
 - A public replay manifest is generated at `/replay-manifest.json` with public
   links, validation commands, report summaries, SHA-256 artifact hashes, and
   the no-private-key/no-token safety posture.
+- A judge review checklist exists in `REVIEW.md` to map the live MVP, public
+  artifacts, safety posture, and known live-API boundary into a short review
+  path.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS network calls are intentionally not included until a safe

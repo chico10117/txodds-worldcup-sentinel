@@ -67,6 +67,12 @@ This can become the analysis core for a public MVP:
 The public packet is ready for demo-data-mode framing. A live-data submission
 still needs a safe TxODDS API-token route.
 
+## Judge Quickstart
+
+For a fast review path, use `REVIEW.md` first. It maps the live MVP, judge
+brief, reports, replay manifest, compliance note, browser playground, and known
+live-API boundary into a five-minute checklist.
+
 ## Public Demo
 
 Current Vercel deployment:
@@ -115,7 +121,8 @@ https://github.com/chico10117/txodds-worldcup-sentinel
 ```
 
 See `SUBMISSION.md` for the Superteam field packet and
-`DEMO_VIDEO_SCRIPT.md` for the short demo recording plan.
+`REVIEW.md` for the judge review checklist, plus `DEMO_VIDEO_SCRIPT.md` for the
+short demo recording plan.
 
 ## Demo Video
 
