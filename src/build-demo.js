@@ -122,6 +122,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     await artifact(".github/workflows/verify.yml", "GitHub Actions public packet verification workflow"),
     await artifact("SUBMISSION.md", "Superteam field packet"),
     await artifact("REVIEW.md", "Judge review checklist"),
+    await artifact("public/.well-known/ai.txt", "AI-readable public review manifest"),
     await artifact("src/verify-packet.js", "Local public-packet verifier")
   ];
 
@@ -187,6 +188,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
         "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
       judgeBrief: "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
       compliance: "https://txodds-worldcup-sentinel.vercel.app/compliance.html",
+      aiTxt: "https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt",
       demoVideo:
         "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
       reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",

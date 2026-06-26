@@ -500,7 +500,7 @@ export function renderReportHtml(report) {
 
     <footer>
       <p>Demo-data mode only. Live TxODDS integration should use the captured-payload normalizer or an adapter that emits the same feed shape after a safe API-token route exists. This page does not require a wallet, paid subscription, private key, seed phrase, or external network call.</p>
-      <p>Reviewer links: <a href="./judge-brief.html">judge evaluation brief</a>, <a href="./compliance.html">hackathon compliance note</a>, <a href="./demo-video.html">captioned demo video page</a>, <a href="./judge-playground.html">paste-in TxODDS judge playground</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, and <a href="./replay-manifest.json">replay manifest JSON</a>.</p>
+      <p>Reviewer links: <a href="./judge-brief.html">judge evaluation brief</a>, <a href="./compliance.html">hackathon compliance note</a>, <a href="./demo-video.html">captioned demo video page</a>, <a href="./judge-playground.html">paste-in TxODDS judge playground</a>, <a href="https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4">GitHub demo MP4</a>, <a href="./report.json">fixture report JSON</a>, <a href="./txodds-capture-report.json">captured TxODDS report JSON</a>, <a href="./replay-manifest.json">replay manifest JSON</a>, and <a href="./.well-known/ai.txt">AI-readable review manifest</a>.</p>
     </footer>
   </main>
 </body>
@@ -1084,6 +1084,7 @@ export function renderJudgeBriefHtml(report, txOddsReport) {
       <a href="./demo-video.html">Demo video page</a>
       <a href="./judge-playground.html">Judge playground</a>
       <a href="./replay-manifest.json">Replay manifest</a>
+      <a href="./.well-known/ai.txt">AI-readable manifest</a>
       <a href="./report.json">Fixture report JSON</a>
       <a href="./txodds-capture-report.json">Captured TxODDS report JSON</a>
       <a href="https://github.com/chico10117/txodds-worldcup-sentinel">Public repository</a>

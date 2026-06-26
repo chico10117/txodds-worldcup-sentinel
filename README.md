@@ -104,12 +104,13 @@ Machine-readable public reports:
 https://txodds-worldcup-sentinel.vercel.app/report.json
 https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
 https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
+https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt
 ```
 
 The replay manifest records the public URLs, validation commands, report
 summaries, SHA-256 hashes for the generated outputs and key source files,
-review checklist, verifier, GitHub Actions workflow, and the
-no-private-key/no-token/no-network-call safety posture.
+review checklist, AI-readable public manifest, verifier, GitHub Actions
+workflow, and the no-private-key/no-token/no-network-call safety posture.
 
 The judge brief summarizes the fixture report, captured TxODDS report, replay
 path, and safety posture in a single static page for fast review.

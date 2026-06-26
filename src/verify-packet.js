@@ -8,6 +8,7 @@ const requiredFiles = [
   "public/demo-video.html",
   "public/judge-playground.html",
   "public/playground.js",
+  "public/.well-known/ai.txt",
   "public/report.json",
   "public/txodds-capture-report.json",
   "public/replay-manifest.json",
@@ -78,12 +79,18 @@ async function main() {
 
   assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
   assert(manifest.mode === "demo-data", "manifest mode must stay demo-data");
-  assert(manifest.artifacts.length >= 19, "manifest must include the full review packet");
+  assert(manifest.artifacts.length >= 20, "manifest must include the full review packet");
   assert(manifest.commands.includes("npm run verify:packet"), "manifest must list verifier command");
   assert(manifest.commands.includes("npm run verify:ci"), "manifest must list CI verifier command");
 
   const artifactPaths = new Set(manifest.artifacts.map((artifact) => artifact.path));
-  for (const path of ["REVIEW.md", ".github/workflows/verify.yml", "src/verify-packet.js", ...requiredFiles.slice(0, 8)]) {
+  for (const path of [
+    "REVIEW.md",
+    ".github/workflows/verify.yml",
+    "src/verify-packet.js",
+    "public/.well-known/ai.txt",
+    ...requiredFiles.slice(0, 9)
+  ]) {
     assert(artifactPaths.has(path), `manifest is missing artifact ${path}`);
   }
 
@@ -107,6 +114,7 @@ async function main() {
     "What an automated strategy should do",
     "Pause settlement automation",
     "judge-brief.html",
+    ".well-known/ai.txt",
     "replay-manifest.json"
   ]);
   await assertContains("public/judge-brief.html", [
@@ -121,6 +129,11 @@ async function main() {
   await assertContains("public/judge-playground.html", [
     "Paste captured TxODDS JSON",
     "does not connect a wallet"
+  ]);
+  await assertContains("public/.well-known/ai.txt", [
+    "TxODDS World Cup Sentinel",
+    "deterministic recommended agent actions",
+    "no private keys"
   ]);
 
   const playgroundRuntime = await readText("public/playground.js");

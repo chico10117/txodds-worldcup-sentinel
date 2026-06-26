@@ -10,6 +10,7 @@
     "judgePlayground": "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
     "judgeBrief": "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
     "compliance": "https://txodds-worldcup-sentinel.vercel.app/compliance.html",
+    "aiTxt": "https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt",
     "demoVideo": "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
     "reportJson": "https://txodds-worldcup-sentinel.vercel.app/report.json",
     "txoddsCaptureReportJson": "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
@@ -67,14 +68,14 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "1183ac1ae0827c442e2d86c5a7406659f0d3c6aed1cfe066674952c89ee39782",
-      "sizeBytes": 16805
+      "sha256": "49176979b37b94997a9e865dbdc566318baa0a85b82027294fce19d34e7c97f0",
+      "sizeBytes": 16869
     },
     {
       "path": "public/judge-brief.html",
       "description": "Public judge evaluation brief",
-      "sha256": "e19626fcf68bc419299652074d87068017f01d4de682c15d7d2a9bb30ac61e3f",
-      "sizeBytes": 12695
+      "sha256": "70f1257425c32800c9fed82266dd4cb4a6e6f66b58117764e0ae7b9356be8a79",
+      "sizeBytes": 12757
     },
     {
       "path": "public/compliance.html",
@@ -181,8 +182,8 @@
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "5a52b45d47685af62927b9597731ddbbc12dc8949226c9b5ebc1573d538641e8",
-      "sizeBytes": 41527
+      "sha256": "fbbbf483da60044aece3dd3d4d1654277359721a113a19b5d30662ef73d3b1e3",
+      "sizeBytes": 41653
     },
     {
       "path": "package.json",
@@ -199,20 +200,26 @@
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "3546f7eb0407e499b2bc8053f76dc745a98dc91dc5f08dade5b03834bab1d07b",
-      "sizeBytes": 5275
+      "sha256": "43d1cad5c16d6b67b844750dcc42380d5b2e84657b8eef2deac743ee7e019587",
+      "sizeBytes": 5682
     },
     {
       "path": "REVIEW.md",
       "description": "Judge review checklist",
-      "sha256": "31fc5a5e9b569489f090f5e9d815668bebd1a49cc7e87c7ac7dbd7e02bab6414",
-      "sizeBytes": 2910
+      "sha256": "1a381a9ccfedcffbbc53529706670a533e47a07eda81951d909dd0a251d29a57",
+      "sizeBytes": 3225
+    },
+    {
+      "path": "public/.well-known/ai.txt",
+      "description": "AI-readable public review manifest",
+      "sha256": "d8004f759be7fbc0a81ff3a09c4e62a0dc67bafd0d4d8922352b052550a00100",
+      "sizeBytes": 1981
     },
     {
       "path": "src/verify-packet.js",
       "description": "Local public-packet verifier",
-      "sha256": "2c9c25450a63cb7137d8873004c0407ac2984ede90a261efe1c609f9ee1332fb",
-      "sizeBytes": 4485
+      "sha256": "9e3944c590898762409df086aa87f84aba33d65e67500e2bcfef6c06bb837c42",
+      "sizeBytes": 4757
     }
   ],
   "safety": {

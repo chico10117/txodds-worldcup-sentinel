@@ -16,6 +16,8 @@ setup, API keys, paid access, or live network calls.
    `https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json`
 5. Confirm replay evidence and artifact hashes:
    `https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json`
+6. Check the AI-readable review manifest:
+   `https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt`
 
 ## What To Verify
 
@@ -33,6 +35,9 @@ setup, API keys, paid access, or live network calls.
   `npm run report:txodds`, `npm run verify:packet`, and `npm run verify:ci`
   rebuild and validate the public packet. The public repository also runs
   `.github/workflows/verify.yml` on pushes, pull requests, and manual dispatch.
+- Agent discoverability: `/.well-known/ai.txt` exposes the live review path,
+  replay commands, safety posture, machine-readable reports, and recommended
+  agent action output for crawler or agent review.
 - Safety: the public MVP does not ask for a wallet, private key, seed phrase,
   subscription, API token, or judge-side payment.
 

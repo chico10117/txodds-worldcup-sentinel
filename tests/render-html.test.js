@@ -69,6 +69,7 @@ test("renders a deterministic static demo report", () => {
   assert.match(html, /judge-playground\.html/);
   assert.match(html, /judge-brief\.html/);
   assert.match(html, /compliance\.html/);
+  assert.match(html, /\.well-known\/ai\.txt/);
   assert.match(html, /unsafe-&lt;match&gt;/);
   assert.doesNotMatch(html, /unsafe-<match>/);
 });
@@ -219,6 +220,7 @@ test("renders a judge evaluation brief with escaped report data", () => {
   assert.match(html, /compliance\.html/);
   assert.match(html, /judge-playground\.html/);
   assert.match(html, /replay-manifest\.json/);
+  assert.match(html, /\.well-known\/ai\.txt/);
   assert.match(html, /fixture-&lt;match&gt;/);
   assert.match(html, /tx-&lt;capture&gt;/);
   assert.doesNotMatch(html, /fixture-<match>/);

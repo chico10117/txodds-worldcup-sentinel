@@ -38,6 +38,12 @@ Judge playground:
 https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
 ```
 
+AI-readable review manifest:
+
+```text
+https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt
+```
+
 Raw demo MP4:
 
 ```text
@@ -67,6 +73,7 @@ Review path:
 - Browser-playable demo video: https://txodds-worldcup-sentinel.vercel.app/demo-video.html
 - Paste-in judge playground: https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
 - Hackathon compliance note: https://txodds-worldcup-sentinel.vercel.app/compliance.html
+- AI-readable review manifest: https://txodds-worldcup-sentinel.vercel.app/.well-known/ai.txt
 - Replay manifest: https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
 - Fixture report JSON: https://txodds-worldcup-sentinel.vercel.app/report.json
 - Captured TxODDS-shaped report JSON: https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
@@ -99,6 +106,9 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
 - A public replay manifest is generated at `/replay-manifest.json` with public
   links, validation commands, report summaries, SHA-256 artifact hashes, and
   the no-private-key/no-token safety posture.
+- An AI-readable public review manifest is available at `/.well-known/ai.txt`
+  so crawlers and agent reviewers can discover the review path, safety posture,
+  replay commands, and machine-readable reports.
 - A judge review checklist exists in `REVIEW.md` to map the live MVP, public
   artifacts, safety posture, and known live-API boundary into a short review
   path.

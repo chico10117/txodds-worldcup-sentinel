@@ -1,0 +1,50 @@
+# TxODDS World Cup Sentinel
+
+Purpose: replayable World Cup odds integrity monitor for the Superteam /
+TxODDS hackathon submission.
+
+Live MVP:
+https://txodds-worldcup-sentinel.vercel.app
+
+Public source:
+https://github.com/chico10117/txodds-worldcup-sentinel
+
+Primary review artifacts:
+- Judge brief: https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
+- Compliance note: https://txodds-worldcup-sentinel.vercel.app/compliance.html
+- Browser playground: https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
+- Demo video page: https://txodds-worldcup-sentinel.vercel.app/demo-video.html
+- Replay manifest: https://txodds-worldcup-sentinel.vercel.app/replay-manifest.json
+- Fixture report JSON: https://txodds-worldcup-sentinel.vercel.app/report.json
+- Captured TxODDS report JSON: https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
+
+What the analyzer returns:
+- ranked risk flags for stale feeds, odds shocks, overround anomalies,
+  settlement drift, and finished-event/open-settlement mismatches
+- deterministic recommended agent actions, including pause settlement
+  automation, require cross-source review, throttle trading decisions, and
+  refresh stale feeds before action
+- market-level odds, implied probabilities, movement from previous odds, age,
+  overround, and report-level risk score
+
+Replay commands:
+- npm test
+- npm run build
+- npm run build:video
+- npm run report:txodds
+- npm run verify:packet
+- npm run verify:ci
+
+Safety and access:
+- no private keys
+- no seed phrases
+- no API tokens
+- no wallet connection required for review
+- no judge wallet or account required
+- no paid subscription required for review
+- no live TxODDS, Solana, mainnet, or testnet network calls in the build
+
+Known boundary:
+The current public MVP is demo-data mode with an offline captured-payload
+normalizer. A live TxODDS adapter can be added once a safe user-controlled API
+token route exists, while keeping the analyzer output shape unchanged.
