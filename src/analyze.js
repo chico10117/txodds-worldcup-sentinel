@@ -87,23 +87,43 @@ function buildMovementFlags(match, market, selectionSummaries, options) {
     }));
 }
 
-function buildSettlementFlags(match, market, selectionSummaries, options) {
+function isFinishedEvent(match) {
+  return match.eventState?.phase === "finished" || match.status === "finished";
+}
+
+function calculateSettlementLagMinutes(match, market, options) {
+  const settlement = market.externalSettlement;
+  if (!settlement || settlement.status === "settled" || !isFinishedEvent(match)) {
+    return null;
+  }
+
+  const eventEndAt = match.eventState?.lastEventAt ?? match.finishedAt ?? match.endedAt;
+  if (!eventEndAt) {
+    return null;
+  }
+
+  return round(Math.max(0, minutesBetween(eventEndAt, options.now)), 2);
+}
+
+function buildSettlementFlags(match, market, selectionSummaries, options, settlementLagMinutes) {
   const settlement = market.externalSettlement;
   if (!settlement) {
     return [];
   }
 
   const flags = [];
-  if (
-    (match.eventState?.phase === "finished" || match.status === "finished") &&
-    settlement.status !== "settled"
-  ) {
+  if (isFinishedEvent(match) && settlement.status !== "settled") {
+    const lagDetail =
+      settlementLagMinutes === null
+        ? "event is finished"
+        : `event finished ${settlementLagMinutes} minutes ago`;
+
     flags.push({
       code: "EVENT_MARKET_MISMATCH",
       severity: "high",
       matchId: match.id,
       marketId: market.id,
-      detail: `event is finished but settlement status is ${settlement.status}`,
+      detail: `${lagDetail} but settlement status is ${settlement.status}`,
       score: 5
     });
   }
@@ -136,6 +156,7 @@ function analyzeMarket(match, market, options) {
   const selectionSummaries = analyzeSelections(market.selections ?? []);
   const overroundPct = pctPoints(marketOverround(market.selections ?? []));
   const ageMinutes = round(minutesBetween(market.lastUpdated, options.now), 2);
+  const settlementLagMinutes = calculateSettlementLagMinutes(match, market, options);
   const flags = [];
 
   if (ageMinutes > options.staleMinutes) {
@@ -161,7 +182,9 @@ function analyzeMarket(match, market, options) {
   }
 
   flags.push(...buildMovementFlags(match, market, selectionSummaries, options));
-  flags.push(...buildSettlementFlags(match, market, selectionSummaries, options));
+  flags.push(
+    ...buildSettlementFlags(match, market, selectionSummaries, options, settlementLagMinutes)
+  );
 
   return {
     matchId: match.id,
@@ -169,6 +192,7 @@ function analyzeMarket(match, market, options) {
     name: market.name,
     provider: market.provider,
     ageMinutes,
+    settlementLagMinutes,
     overroundPct,
     selections: selectionSummaries,
     flags

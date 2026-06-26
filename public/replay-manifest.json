@@ -68,14 +68,14 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "49176979b37b94997a9e865dbdc566318baa0a85b82027294fce19d34e7c97f0",
-      "sizeBytes": 16869
+      "sha256": "aa92970149966b0402749547dbc86f483803ca9dba22bc24a100b278a08c1bc9",
+      "sizeBytes": 16950
     },
     {
       "path": "public/judge-brief.html",
       "description": "Public judge evaluation brief",
-      "sha256": "70f1257425c32800c9fed82266dd4cb4a6e6f66b58117764e0ae7b9356be8a79",
-      "sizeBytes": 12757
+      "sha256": "6e74056418b7eef64c126039b88c94bd6d6664ab59feb40a869ad2b84746edef",
+      "sizeBytes": 12770
     },
     {
       "path": "public/compliance.html",
@@ -110,8 +110,8 @@
     {
       "path": "public/report.json",
       "description": "Machine-readable fixture analyzer report",
-      "sha256": "da5e226fa9ccee320feb11ebba6bcfd334d1ff491c7258c05d04620ac2719094",
-      "sizeBytes": 9732,
+      "sha256": "d19af8f55c6c3c0760d6726a8b4115afc49bf1324b8e38bc64d255eddd65b034",
+      "sizeBytes": 9829,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 2,
@@ -142,8 +142,8 @@
     {
       "path": "public/txodds-capture-report.json",
       "description": "Machine-readable captured TxODDS-shaped payload report",
-      "sha256": "091c561c71bd12e71a0592b6550feaf8f44f54075ee190c558f12f15e8b0a58b",
-      "sizeBytes": 3315,
+      "sha256": "9f35a29302422074d8b448a9eeb2a6415d35b9004d0c1c8bb5cd9e40d29960a9",
+      "sizeBytes": 3351,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 1,
@@ -176,14 +176,14 @@
     {
       "path": "src/analyze.js",
       "description": "Dependency-free odds and settlement analyzer",
-      "sha256": "c949176449e3e2d09571e30cbdfbd7d739bfc7be2e989955bff59bfff0fc1193",
-      "sizeBytes": 9887
+      "sha256": "b734b7930675d679cff20b638ef0b2e018c3318ccd3f42f5907de3b60185eb7a",
+      "sizeBytes": 10681
     },
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "fbbbf483da60044aece3dd3d4d1654277359721a113a19b5d30662ef73d3b1e3",
-      "sizeBytes": 41653
+      "sha256": "dab85f63703e38171d82746973f833ac809b03534f61b6b2318b3aaae4d999f1",
+      "sizeBytes": 41876
     },
     {
       "path": "package.json",

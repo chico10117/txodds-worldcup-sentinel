@@ -14,6 +14,8 @@ route is available.
 - Large implied-probability movement from previous odds.
 - Stale feed updates.
 - Finished-event versus still-open settlement mismatches.
+- Settlement lag in minutes for finished events whose external market is still
+  open.
 - Drift between TxODDS-style implied probability and an external market source.
 - Deterministic recommended agent actions, such as pausing settlement
   automation, refreshing stale feeds, or throttling trading decisions.

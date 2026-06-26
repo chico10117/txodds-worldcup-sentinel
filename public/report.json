@@ -78,7 +78,7 @@
       "severity": "high",
       "matchId": "wc-fra-ger-20260626",
       "marketId": "match_winner",
-      "detail": "event is finished but settlement status is open",
+      "detail": "event finished 198 minutes ago but settlement status is open",
       "score": 5
     },
     {
@@ -168,6 +168,7 @@
       "name": "Match winner",
       "provider": "txodds-delayed-fixture",
       "ageMinutes": 23,
+      "settlementLagMinutes": null,
       "overroundPct": 8.28,
       "selections": [
         {
@@ -221,6 +222,7 @@
       "name": "Match winner",
       "provider": "txodds-delayed-fixture",
       "ageMinutes": 50,
+      "settlementLagMinutes": 198,
       "overroundPct": 3.48,
       "selections": [
         {
@@ -289,7 +291,7 @@
           "severity": "high",
           "matchId": "wc-fra-ger-20260626",
           "marketId": "match_winner",
-          "detail": "event is finished but settlement status is open",
+          "detail": "event finished 198 minutes ago but settlement status is open",
           "score": 5
         },
         {

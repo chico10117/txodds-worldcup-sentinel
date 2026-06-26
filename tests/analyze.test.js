@@ -72,7 +72,7 @@ test("flags finished events whose external settlement is still open", () => {
         {
           id: "match-2",
           status: "finished",
-          eventState: { phase: "finished" },
+          eventState: { phase: "finished", lastEventAt: "2026-06-26T05:40:00.000Z" },
           markets: [
             {
               id: "winner",
@@ -101,6 +101,11 @@ test("flags finished events whose external settlement is still open", () => {
   );
 
   assert.ok(report.flags.some((flag) => flag.code === "EVENT_MARKET_MISMATCH"));
+  assert.equal(report.markets[0].settlementLagMinutes, 20);
+  assert.match(
+    report.flags.find((flag) => flag.code === "EVENT_MARKET_MISMATCH").detail,
+    /event finished 20 minutes ago/
+  );
   assert.ok(report.flags.some((flag) => flag.code === "SETTLEMENT_DRIFT"));
   assert.ok(report.riskScore > 0);
 });

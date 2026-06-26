@@ -26,7 +26,7 @@ test("renders a deterministic static demo report", () => {
         {
           id: "unsafe-<match>",
           status: "finished",
-          eventState: { phase: "finished" },
+          eventState: { phase: "finished", lastEventAt: "2026-06-26T05:10:00.000Z" },
           markets: [
             {
               id: "winner",
@@ -60,6 +60,7 @@ test("renders a deterministic static demo report", () => {
   const html = renderReportHtml(report);
   assert.match(html, /World Cup odds integrity watch/);
   assert.match(html, /EVENT_MARKET_MISMATCH/);
+  assert.match(html, /70m settlement lag/);
   assert.match(html, /What an automated strategy should do/);
   assert.match(html, /Pause settlement automation/);
   assert.match(html, /report\.json/);

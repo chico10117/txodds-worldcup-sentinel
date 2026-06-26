@@ -66,6 +66,7 @@
       "name": "Match winner",
       "provider": "txodds-worldcup",
       "ageMinutes": 23,
+      "settlementLagMinutes": null,
       "overroundPct": 8.28,
       "selections": [
         {

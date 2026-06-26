@@ -126,6 +126,11 @@ function marketPanels(markets) {
               <span>${escapeHtml(market.provider)}</span>
               <strong>${escapeHtml(market.overroundPct)}% overround</strong>
               <strong>${escapeHtml(market.ageMinutes)}m age</strong>
+              ${
+                market.settlementLagMinutes === null
+                  ? ""
+                  : `<strong>${escapeHtml(market.settlementLagMinutes)}m settlement lag</strong>`
+              }
             </div>
           </div>
           <table>
@@ -491,7 +496,7 @@ export function renderReportHtml(report) {
           <p class="eyebrow">Market tape</p>
           <h2>Odds and settlement surface</h2>
         </div>
-        <p>Each market keeps the selection probabilities, movement from the previous snapshot, source age, and detected flags visible for fast judge review.</p>
+        <p>Each market keeps the selection probabilities, movement from the previous snapshot, source age, settlement lag, and detected flags visible for fast judge review.</p>
       </div>
       <div class="markets">
         ${marketPanels(report.markets)}
