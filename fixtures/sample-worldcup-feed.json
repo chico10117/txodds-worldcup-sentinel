@@ -1,0 +1,108 @@
+{
+  "generatedAt": "2026-06-26T06:00:00.000Z",
+  "serviceLevelId": 1,
+  "matches": [
+    {
+      "id": "wc-arg-bra-20260627",
+      "competition": "World Cup",
+      "home": "Argentina",
+      "away": "Brazil",
+      "status": "not_started",
+      "kickoff": "2026-06-27T18:00:00.000Z",
+      "eventState": {
+        "phase": "pre_match",
+        "score": {
+          "home": 0,
+          "away": 0
+        },
+        "lastEventAt": "2026-06-26T05:57:00.000Z"
+      },
+      "markets": [
+        {
+          "id": "match_winner",
+          "name": "Match winner",
+          "provider": "txodds-delayed-fixture",
+          "lastUpdated": "2026-06-26T05:57:00.000Z",
+          "selections": [
+            {
+              "name": "Argentina",
+              "odds": 2.1,
+              "previousOdds": 2.55
+            },
+            {
+              "name": "Draw",
+              "odds": 3.4,
+              "previousOdds": 3.3
+            },
+            {
+              "name": "Brazil",
+              "odds": 3.2,
+              "previousOdds": 2.95
+            }
+          ],
+          "externalSettlement": {
+            "source": "prediction-market-demo",
+            "status": "open",
+            "updatedAt": "2026-06-26T05:58:00.000Z",
+            "implied": {
+              "Argentina": 0.46,
+              "Draw": 0.27,
+              "Brazil": 0.27
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "wc-fra-ger-20260626",
+      "competition": "World Cup",
+      "home": "France",
+      "away": "Germany",
+      "status": "finished",
+      "kickoff": "2026-06-26T01:00:00.000Z",
+      "eventState": {
+        "phase": "finished",
+        "score": {
+          "home": 2,
+          "away": 1
+        },
+        "lastEventAt": "2026-06-26T03:02:00.000Z"
+      },
+      "markets": [
+        {
+          "id": "match_winner",
+          "name": "Match winner",
+          "provider": "txodds-delayed-fixture",
+          "lastUpdated": "2026-06-26T05:30:00.000Z",
+          "selections": [
+            {
+              "name": "France",
+              "odds": 1.4,
+              "previousOdds": 2.2
+            },
+            {
+              "name": "Draw",
+              "odds": 5.2,
+              "previousOdds": 3.5
+            },
+            {
+              "name": "Germany",
+              "odds": 7.8,
+              "previousOdds": 3.1
+            }
+          ],
+          "externalSettlement": {
+            "source": "prediction-market-demo",
+            "status": "open",
+            "updatedAt": "2026-06-26T05:35:00.000Z",
+            "implied": {
+              "France": 0.95,
+              "Draw": 0.02,
+              "Germany": 0.03
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

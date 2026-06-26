@@ -1,0 +1,16 @@
+{
+  "name": "txodds-worldcup-sentinel",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Keyless World Cup odds and event sentinel prototype for the TxODDS hackathon.",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:demo",
+    "build:demo": "node src/build-demo.js fixtures/sample-worldcup-feed.json public/index.html --now 2026-06-26T06:20:00.000Z --generated-at 2026-06-26T06:20:00.000Z",
+    "report": "node src/cli.js fixtures/sample-worldcup-feed.json",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
