@@ -6,6 +6,7 @@
   "urls": {
     "liveMvp": "https://txodds-worldcup-sentinel.vercel.app",
     "publicRepository": "https://github.com/chico10117/txodds-worldcup-sentinel",
+    "demoVideoPage": "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
     "demoVideo": "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
     "reportJson": "https://txodds-worldcup-sentinel.vercel.app/report.json",
     "txoddsCaptureReportJson": "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
@@ -50,8 +51,14 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "a49515210a228787141e052273ce42302f0ab3eddde6f23e05970bb653099147",
-      "sizeBytes": 14172
+      "sha256": "1615c054f31ad4fe789dcdbe09155b2604a9ba29271586ce824bd45e1d133fb5",
+      "sizeBytes": 14332
+    },
+    {
+      "path": "public/demo-video.html",
+      "description": "Public demo video review page",
+      "sha256": "85f35328a1fa9dd0f0c9b1bfa2cfbbfabc62e0aeb3da94b21b84c1718ea46911",
+      "sizeBytes": 4787
     },
     {
       "path": "public/report.json",
@@ -117,20 +124,20 @@
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "89b6d1dad5182457525f0518fa86bc95394557419bcee80c7ec2c2ce54350264",
-      "sizeBytes": 11691
+      "sha256": "ec7c085e09b20c25472a629aa3a4e523c57c3afb1084e83e032a04dc9db94ba0",
+      "sizeBytes": 16790
     },
     {
       "path": "package.json",
       "description": "Node scripts and reproducible build entrypoints",
-      "sha256": "2b1a8cd962d7f4f466de06846c0ea8f90d1cfe06b6d8fe5479dc6385d1466aaa",
-      "sizeBytes": 969
+      "sha256": "b108c042cae5ba3a9582979e7844fe666cdf1cad44372e6c5ed8336a578888c4",
+      "sizeBytes": 1010
     },
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "e792134184ea9ba77b9cbd65530427fba2621df5bbd2e311c43f0ee17fcb423a",
-      "sizeBytes": 2274
+      "sha256": "de584040169537cb5287ed73b9f54cc0e64ead53c8eb7f5629520c87c459b523",
+      "sizeBytes": 2442
     }
   ],
   "safety": {

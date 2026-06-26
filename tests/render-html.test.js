@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { analyzeFeed } from "../src/analyze.js";
-import { escapeHtml, renderReportHtml } from "../src/render-html.js";
+import { escapeHtml, renderDemoVideoHtml, renderReportHtml } from "../src/render-html.js";
 
 test("escapes html-sensitive characters", () => {
   assert.equal(
@@ -56,6 +56,30 @@ test("renders a deterministic static demo report", () => {
   assert.match(html, /report\.json/);
   assert.match(html, /txodds-capture-report\.json/);
   assert.match(html, /replay-manifest\.json/);
+  assert.match(html, /demo-video\.html/);
   assert.match(html, /unsafe-&lt;match&gt;/);
   assert.doesNotMatch(html, /unsafe-<match>/);
+});
+
+test("renders a directly playable demo video page", () => {
+  const report = analyzeFeed(
+    {
+      generatedAt: "2026-06-26T06:00:00.000Z",
+      serviceLevelId: 1,
+      matches: []
+    },
+    {
+      now: "2026-06-26T06:20:00.000Z",
+      generatedAt: "2026-06-26T06:20:00.000Z"
+    }
+  );
+
+  const html = renderDemoVideoHtml(report);
+  assert.match(html, /Demo video for judge review/);
+  assert.match(
+    html,
+    /raw\.githubusercontent\.com\/chico10117\/txodds-worldcup-sentinel\/main\/media\/demo\.mp4/
+  );
+  assert.match(html, /replay-manifest\.json/);
+  assert.match(html, /does not request wallet connection/);
 });

@@ -17,6 +17,12 @@ https://github.com/chico10117/txodds-worldcup-sentinel
 Demo video:
 
 ```text
+https://txodds-worldcup-sentinel.vercel.app/demo-video.html
+```
+
+Raw demo MP4:
+
+```text
 https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
 ```
 
@@ -46,6 +52,7 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
   dependency-free Node scripts.
 - Public machine-readable reports are generated at `/report.json` and
   `/txodds-capture-report.json` for direct judge inspection.
+- A public browser-playable demo video page is generated at `/demo-video.html`.
 - A public replay manifest is generated at `/replay-manifest.json` with public
   links, validation commands, report summaries, SHA-256 artifact hashes, and
   the no-private-key/no-token safety posture.

@@ -4,7 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { analyzeFeed } from "./analyze.js";
 import { normalizeTxOddsPayload } from "./normalize-txodds.js";
-import { renderReportHtml } from "./render-html.js";
+import { renderDemoVideoHtml, renderReportHtml } from "./render-html.js";
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -25,6 +25,8 @@ function parseArgs(argv) {
       artifacts.txOddsInputPath = args[++index];
     } else if (arg === "--txodds-report-json") {
       artifacts.txOddsReportJsonPath = args[++index];
+    } else if (arg === "--demo-video-html") {
+      artifacts.demoVideoHtmlPath = args[++index];
     } else if (arg === "--manifest-json") {
       artifacts.manifestJsonPath = args[++index];
     } else {
@@ -34,7 +36,7 @@ function parseArgs(argv) {
 
   if (!inputPath || !outputPath) {
     throw new Error(
-      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--manifest-json PATH]"
+      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--manifest-json PATH]"
     );
   }
 
@@ -106,6 +108,14 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     );
   }
 
+  if (artifacts.demoVideoHtmlPath) {
+    manifestArtifacts.splice(
+      1,
+      0,
+      await artifact(artifacts.demoVideoHtmlPath, "Public demo video review page")
+    );
+  }
+
   return {
     generatedAt: report.generatedAt,
     project: "TxODDS World Cup Sentinel",
@@ -115,6 +125,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     urls: {
       liveMvp: "https://txodds-worldcup-sentinel.vercel.app",
       publicRepository: "https://github.com/chico10117/txodds-worldcup-sentinel",
+      demoVideoPage: "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
       demoVideo:
         "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
       reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",
@@ -157,6 +168,12 @@ async function main() {
   await mkdir(dirname(outputPath), { recursive: true });
   await writeFile(outputPath, html);
   console.log(`wrote ${outputPath}`);
+
+  if (artifacts.demoVideoHtmlPath) {
+    await mkdir(dirname(artifacts.demoVideoHtmlPath), { recursive: true });
+    await writeFile(artifacts.demoVideoHtmlPath, renderDemoVideoHtml(report));
+    console.log(`wrote ${artifacts.demoVideoHtmlPath}`);
+  }
 
   if (artifacts.reportJsonPath) {
     await writeJson(artifacts.reportJsonPath, report);

@@ -30,10 +30,12 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score. The demo build writes `public/index.html`, `public/report.json`,
+risk score. The demo build writes `public/index.html`,
+`public/demo-video.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges
-can inspect the rendered report, machine-readable analyzer output, replay
-commands, artifact hashes, and safety assumptions without a backend.
+can inspect the rendered report, captioned video, machine-readable analyzer
+output, replay commands, artifact hashes, and safety assumptions without a
+backend.
 
 ## Live API Boundary
 
@@ -68,6 +70,7 @@ Current Vercel deployment:
 
 ```text
 https://txodds-worldcup-sentinel.vercel.app
+https://txodds-worldcup-sentinel.vercel.app/demo-video.html
 ```
 
 Deployment uses `vercel.json` to run `npm run build` and serve `public/`.
@@ -100,6 +103,7 @@ See `SUBMISSION.md` for the Superteam field packet and
 Current captioned demo video:
 
 ```text
+https://txodds-worldcup-sentinel.vercel.app/demo-video.html
 https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4
 ```
 
