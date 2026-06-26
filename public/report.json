@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-06-26T06:20:00.000Z",
+  "inputGeneratedAt": "2026-06-26T06:00:00.000Z",
+  "analysisTime": "2026-06-26T06:20:00.000Z",
+  "serviceLevelId": 1,
+  "matchCount": 2,
+  "marketCount": 2,
+  "riskScore": 35,
+  "flagCount": 10,
+  "flags": [
+    {
+      "code": "EVENT_MARKET_MISMATCH",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "detail": "event is finished but settlement status is open",
+      "score": 5
+    },
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "severity": "high",
+      "matchId": "wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "selection": "Argentina",
+      "detail": "Argentina moved 8.4 probability points",
+      "score": 4
+    },
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "France",
+      "detail": "France moved 25.97 probability points",
+      "score": 4
+    },
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "Draw",
+      "detail": "Draw moved -9.34 probability points",
+      "score": 4
+    },
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "Germany",
+      "detail": "Germany moved -19.44 probability points",
+      "score": 4
+    },
+    {
+      "code": "SETTLEMENT_DRIFT",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "France",
+      "detail": "France differs from external implied probability by -23.57 points",
+      "score": 4
+    },
+    {
+      "code": "SETTLEMENT_DRIFT",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "Draw",
+      "detail": "Draw differs from external implied probability by 17.23 points",
+      "score": 4
+    },
+    {
+      "code": "STALE_FEED",
+      "severity": "high",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "detail": "Match winner last updated 50 minutes ago",
+      "score": 3
+    },
+    {
+      "code": "SETTLEMENT_DRIFT",
+      "severity": "medium",
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "selection": "Germany",
+      "detail": "Germany differs from external implied probability by 9.82 points",
+      "score": 2
+    },
+    {
+      "code": "STALE_FEED",
+      "severity": "medium",
+      "matchId": "wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "detail": "Match winner last updated 23 minutes ago",
+      "score": 1
+    }
+  ],
+  "markets": [
+    {
+      "matchId": "wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "name": "Match winner",
+      "provider": "txodds-delayed-fixture",
+      "ageMinutes": 23,
+      "overroundPct": 8.28,
+      "selections": [
+        {
+          "name": "Argentina",
+          "odds": 2.1,
+          "previousOdds": 2.55,
+          "impliedProbability": 0.4762,
+          "impliedPct": 47.62,
+          "probabilityDeltaPctPoints": 8.4
+        },
+        {
+          "name": "Draw",
+          "odds": 3.4,
+          "previousOdds": 3.3,
+          "impliedProbability": 0.2941,
+          "impliedPct": 29.41,
+          "probabilityDeltaPctPoints": -0.89
+        },
+        {
+          "name": "Brazil",
+          "odds": 3.2,
+          "previousOdds": 2.95,
+          "impliedProbability": 0.3125,
+          "impliedPct": 31.25,
+          "probabilityDeltaPctPoints": -2.65
+        }
+      ],
+      "flags": [
+        {
+          "code": "STALE_FEED",
+          "severity": "medium",
+          "matchId": "wc-arg-bra-20260627",
+          "marketId": "match_winner",
+          "detail": "Match winner last updated 23 minutes ago",
+          "score": 1
+        },
+        {
+          "code": "LARGE_ODDS_MOVE",
+          "severity": "high",
+          "matchId": "wc-arg-bra-20260627",
+          "marketId": "match_winner",
+          "selection": "Argentina",
+          "detail": "Argentina moved 8.4 probability points",
+          "score": 4
+        }
+      ]
+    },
+    {
+      "matchId": "wc-fra-ger-20260626",
+      "marketId": "match_winner",
+      "name": "Match winner",
+      "provider": "txodds-delayed-fixture",
+      "ageMinutes": 50,
+      "overroundPct": 3.48,
+      "selections": [
+        {
+          "name": "France",
+          "odds": 1.4,
+          "previousOdds": 2.2,
+          "impliedProbability": 0.7143,
+          "impliedPct": 71.43,
+          "probabilityDeltaPctPoints": 25.97
+        },
+        {
+          "name": "Draw",
+          "odds": 5.2,
+          "previousOdds": 3.5,
+          "impliedProbability": 0.1923,
+          "impliedPct": 19.23,
+          "probabilityDeltaPctPoints": -9.34
+        },
+        {
+          "name": "Germany",
+          "odds": 7.8,
+          "previousOdds": 3.1,
+          "impliedProbability": 0.1282,
+          "impliedPct": 12.82,
+          "probabilityDeltaPctPoints": -19.44
+        }
+      ],
+      "flags": [
+        {
+          "code": "STALE_FEED",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "detail": "Match winner last updated 50 minutes ago",
+          "score": 3
+        },
+        {
+          "code": "LARGE_ODDS_MOVE",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "France",
+          "detail": "France moved 25.97 probability points",
+          "score": 4
+        },
+        {
+          "code": "LARGE_ODDS_MOVE",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "Draw",
+          "detail": "Draw moved -9.34 probability points",
+          "score": 4
+        },
+        {
+          "code": "LARGE_ODDS_MOVE",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "Germany",
+          "detail": "Germany moved -19.44 probability points",
+          "score": 4
+        },
+        {
+          "code": "EVENT_MARKET_MISMATCH",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "detail": "event is finished but settlement status is open",
+          "score": 5
+        },
+        {
+          "code": "SETTLEMENT_DRIFT",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "France",
+          "detail": "France differs from external implied probability by -23.57 points",
+          "score": 4
+        },
+        {
+          "code": "SETTLEMENT_DRIFT",
+          "severity": "high",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "Draw",
+          "detail": "Draw differs from external implied probability by 17.23 points",
+          "score": 4
+        },
+        {
+          "code": "SETTLEMENT_DRIFT",
+          "severity": "medium",
+          "matchId": "wc-fra-ger-20260626",
+          "marketId": "match_winner",
+          "selection": "Germany",
+          "detail": "Germany differs from external implied probability by 9.82 points",
+          "score": 2
+        }
+      ]
+    }
+  ]
+}

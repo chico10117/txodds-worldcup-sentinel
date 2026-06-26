@@ -53,6 +53,8 @@ test("renders a deterministic static demo report", () => {
   const html = renderReportHtml(report);
   assert.match(html, /World Cup odds integrity watch/);
   assert.match(html, /EVENT_MARKET_MISMATCH/);
+  assert.match(html, /report\.json/);
+  assert.match(html, /txodds-capture-report\.json/);
   assert.match(html, /unsafe-&lt;match&gt;/);
   assert.doesNotMatch(html, /unsafe-<match>/);
 });

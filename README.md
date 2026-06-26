@@ -30,8 +30,9 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score. The demo build writes `public/index.html`, a static demo-data report
-that can be deployed without a backend.
+risk score. The demo build writes `public/index.html`, `public/report.json`, and
+`public/txodds-capture-report.json` so judges can inspect the rendered report and
+the machine-readable analyzer output without a backend.
 
 ## Live API Boundary
 
@@ -57,8 +58,8 @@ This can become the analysis core for a public MVP:
 - A fan-facing World Cup odds explainer with replayable fixture data and source
   links.
 
-It is not submission-ready by itself. A viable entry still needs a demo video
-upload and safe live-data integration, or clearly accepted demo-data framing.
+The public packet is ready for demo-data-mode framing. A live-data submission
+still needs a safe TxODDS API-token route.
 
 ## Public Demo
 
@@ -69,6 +70,13 @@ https://txodds-worldcup-sentinel.vercel.app
 ```
 
 Deployment uses `vercel.json` to run `npm run build` and serve `public/`.
+
+Machine-readable public reports:
+
+```text
+https://txodds-worldcup-sentinel.vercel.app/report.json
+https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json
+```
 
 ## Public Repository
 

@@ -44,6 +44,8 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 - Public repository exists.
 - Analyzer, captured TxODDS payload normalizer, and static renderer are
   dependency-free Node scripts.
+- Public machine-readable reports are generated at `/report.json` and
+  `/txodds-capture-report.json` for direct judge inspection.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
 - Live TxODDS network calls are intentionally not included until a safe

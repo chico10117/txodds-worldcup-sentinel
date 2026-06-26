@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2026-06-26T06:20:00.000Z",
+  "inputGeneratedAt": "2026-06-26T06:00:00.000Z",
+  "analysisTime": "2026-06-26T06:20:00.000Z",
+  "serviceLevelId": 1,
+  "matchCount": 1,
+  "marketCount": 1,
+  "riskScore": 5,
+  "flagCount": 2,
+  "flags": [
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "severity": "high",
+      "matchId": "tx-wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "selection": "Argentina",
+      "detail": "Argentina moved 8.4 probability points",
+      "score": 4
+    },
+    {
+      "code": "STALE_FEED",
+      "severity": "medium",
+      "matchId": "tx-wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "detail": "Match winner last updated 23 minutes ago",
+      "score": 1
+    }
+  ],
+  "markets": [
+    {
+      "matchId": "tx-wc-arg-bra-20260627",
+      "marketId": "match_winner",
+      "name": "Match winner",
+      "provider": "txodds-worldcup",
+      "ageMinutes": 23,
+      "overroundPct": 8.28,
+      "selections": [
+        {
+          "name": "Argentina",
+          "odds": 2.1,
+          "previousOdds": 2.55,
+          "impliedProbability": 0.4762,
+          "impliedPct": 47.62,
+          "probabilityDeltaPctPoints": 8.4
+        },
+        {
+          "name": "Draw",
+          "odds": 3.4,
+          "previousOdds": 3.3,
+          "impliedProbability": 0.2941,
+          "impliedPct": 29.41,
+          "probabilityDeltaPctPoints": -0.89
+        },
+        {
+          "name": "Brazil",
+          "odds": 3.2,
+          "previousOdds": 2.95,
+          "impliedProbability": 0.3125,
+          "impliedPct": 31.25,
+          "probabilityDeltaPctPoints": -2.65
+        }
+      ],
+      "flags": [
+        {
+          "code": "STALE_FEED",
+          "severity": "medium",
+          "matchId": "tx-wc-arg-bra-20260627",
+          "marketId": "match_winner",
+          "detail": "Match winner last updated 23 minutes ago",
+          "score": 1
+        },
+        {
+          "code": "LARGE_ODDS_MOVE",
+          "severity": "high",
+          "matchId": "tx-wc-arg-bra-20260627",
+          "marketId": "match_winner",
+          "selection": "Argentina",
+          "detail": "Argentina moved 8.4 probability points",
+          "score": 4
+        }
+      ]
+    }
+  ]
+}
