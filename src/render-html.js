@@ -72,6 +72,26 @@ function briefFlagRows(flags) {
     .join("");
 }
 
+function actionRows(actions, options = {}) {
+  const compact = Boolean(options.compact);
+  if (!actions.length) {
+    return `<tr><td colspan="${compact ? 4 : 5}">No recommended agent actions for this report.</td></tr>`;
+  }
+
+  return actions
+    .map(
+      (action) => `
+        <tr>
+          <td class="num">${escapeHtml(action.priority)}</td>
+          <td><span class="signal ${severityClass(action.severity)}">${escapeHtml(action.severity)}</span></td>
+          <td><strong>${escapeHtml(action.title)}</strong><br><code>${escapeHtml(action.code)}</code></td>
+          ${compact ? "" : `<td>${escapeHtml(action.matches.join(", "))}</td>`}
+          <td>${escapeHtml(action.nextStep)}</td>
+        </tr>`
+    )
+    .join("");
+}
+
 function selectionRows(selections) {
   return selections
     .map((selection) => {
@@ -434,6 +454,32 @@ export function renderReportHtml(report) {
           </thead>
           <tbody>
             ${flagRows(topFlags)}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Agent actions</p>
+          <h2>What an automated strategy should do</h2>
+        </div>
+        <p>Recommendations are derived deterministically from the ranked flags, so a trading or settlement agent can decide when to pause, refresh, or request review without needing live credentials.</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th class="num">Priority</th>
+              <th>Severity</th>
+              <th>Action</th>
+              <th>Matches</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${actionRows(report.recommendedActions)}
           </tbody>
         </table>
       </div>
@@ -929,7 +975,45 @@ export function renderJudgeBriefHtml(report, txOddsReport) {
       <div class="metric"><span>Fixture report</span><strong>${escapeHtml(fixtureState)}</strong></div>
       <div class="metric"><span>Fixture flags</span><strong>${escapeHtml(report.flagCount)}</strong></div>
       <div class="metric"><span>Captured TxODDS report</span><strong>${escapeHtml(txOddsState)}</strong></div>
-      <div class="metric"><span>Captured flags</span><strong>${escapeHtml(txOddsReport.flagCount)}</strong></div>
+      <div class="metric"><span>Agent actions</span><strong>${escapeHtml(report.recommendedActionCount + txOddsReport.recommendedActionCount)}</strong></div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <p class="eyebrow">Fixture agent actions</p>
+        <h2>Strategy guardrails</h2>
+        <table aria-label="Recommended fixture report agent actions">
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Severity</th>
+              <th>Action</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${actionRows(report.recommendedActions, { compact: true })}
+          </tbody>
+        </table>
+      </article>
+
+      <article class="panel">
+        <p class="eyebrow">Captured payload actions</p>
+        <h2>TxODDS-shaped replay guardrails</h2>
+        <table aria-label="Recommended captured TxODDS report agent actions">
+          <thead>
+            <tr>
+              <th>Priority</th>
+              <th>Severity</th>
+              <th>Action</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${actionRows(txOddsReport.recommendedActions, { compact: true })}
+          </tbody>
+        </table>
+      </article>
     </section>
 
     <section class="grid">

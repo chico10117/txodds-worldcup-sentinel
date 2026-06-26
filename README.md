@@ -15,6 +15,8 @@ route is available.
 - Stale feed updates.
 - Finished-event versus still-open settlement mismatches.
 - Drift between TxODDS-style implied probability and an external market source.
+- Deterministic recommended agent actions, such as pausing settlement
+  automation, refreshing stale feeds, or throttling trading decisions.
 
 ## Run
 
@@ -32,7 +34,7 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score. The demo build writes `public/index.html`,
+risk score plus recommended agent actions. The demo build writes `public/index.html`,
 `public/judge-brief.html`, `public/compliance.html`, `public/demo-video.html`,
 `public/judge-playground.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges

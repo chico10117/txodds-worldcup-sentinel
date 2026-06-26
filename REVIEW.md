@@ -22,6 +22,9 @@ setup, API keys, paid access, or live network calls.
 - Odds integrity: stale source updates, large odds movement, overround
   anomalies, implied probability drift, and finished-event/open-settlement
   mismatches are visible in the report.
+- Agent actions: the report turns those flags into deterministic next steps
+  such as pausing settlement automation, refreshing stale feeds, or throttling
+  trading decisions.
 - TxODDS-shaped input boundary: `src/normalize-txodds.js` converts captured
   `events`, `fixtures`, or `matches` payloads into the same analyzer feed shape.
 - Judge playground: `judge-playground.html` runs the analyzer locally in the
@@ -38,7 +41,8 @@ setup, API keys, paid access, or live network calls.
 - Public MVP: static Vercel site with rendered dashboard, reports, replay
   manifest, demo video page, judge brief, compliance page, and playground.
 - Prediction-market utility: flags odds and settlement states that should be
-  reviewed before a trading or settlement agent trusts an event feed.
+  reviewed before a trading or settlement agent trusts an event feed, then
+  emits recommended guardrails for the agent.
 - TxODDS integration path: live TxODDS calls are intentionally excluded until a
   safe user-controlled API-token route exists; the captured-payload normalizer
   is the adapter boundary that keeps live data integration scoped.

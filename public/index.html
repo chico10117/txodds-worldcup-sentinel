@@ -353,6 +353,60 @@
     <section>
       <div class="section-head">
         <div>
+          <p class="eyebrow">Agent actions</p>
+          <h2>What an automated strategy should do</h2>
+        </div>
+        <p>Recommendations are derived deterministically from the ranked flags, so a trading or settlement agent can decide when to pause, refresh, or request review without needing live credentials.</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th class="num">Priority</th>
+              <th>Severity</th>
+              <th>Action</th>
+              <th>Matches</th>
+              <th>Next step</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td class="num">1</td>
+          <td><span class="signal sev-high">high</span></td>
+          <td><strong>Pause settlement automation</strong><br><code>EVENT_MARKET_MISMATCH</code></td>
+          <td>wc-fra-ger-20260626</td>
+          <td>Refresh event and settlement sources, then release automation only after the states agree.</td>
+        </tr>
+        <tr>
+          <td class="num">2</td>
+          <td><span class="signal sev-high">high</span></td>
+          <td><strong>Require cross-source review</strong><br><code>SETTLEMENT_DRIFT</code></td>
+          <td>wc-fra-ger-20260626</td>
+          <td>Compare the affected selections against an independent source before quoting or settling.</td>
+        </tr>
+        <tr>
+          <td class="num">3</td>
+          <td><span class="signal sev-high">high</span></td>
+          <td><strong>Throttle trading decisions</strong><br><code>LARGE_ODDS_MOVE</code></td>
+          <td>wc-arg-bra-20260627, wc-fra-ger-20260626</td>
+          <td>Request a fresh snapshot and require an operator or strategy rule to acknowledge the move.</td>
+        </tr>
+        <tr>
+          <td class="num">4</td>
+          <td><span class="signal sev-high">high</span></td>
+          <td><strong>Refresh the feed before action</strong><br><code>STALE_FEED</code></td>
+          <td>wc-arg-bra-20260627, wc-fra-ger-20260626</td>
+          <td>Pull a newer provider snapshot or suppress the market until the update age returns inside threshold.</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head">
+        <div>
           <p class="eyebrow">Market tape</p>
           <h2>Odds and settlement surface</h2>
         </div>

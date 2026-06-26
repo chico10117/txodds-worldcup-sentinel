@@ -7,6 +7,71 @@
   "marketCount": 2,
   "riskScore": 35,
   "flagCount": 10,
+  "recommendedActionCount": 4,
+  "recommendedActions": [
+    {
+      "code": "EVENT_MARKET_MISMATCH",
+      "priority": 1,
+      "severity": "high",
+      "title": "Pause settlement automation",
+      "detail": "Finished events still showing open settlement state should be held for manual review before any automated payout, market close, or downstream agent action.",
+      "nextStep": "Refresh event and settlement sources, then release automation only after the states agree.",
+      "flagCount": 1,
+      "matches": [
+        "wc-fra-ger-20260626"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    },
+    {
+      "code": "SETTLEMENT_DRIFT",
+      "priority": 2,
+      "severity": "high",
+      "title": "Require cross-source review",
+      "detail": "Large probability drift against the settlement reference means the market should not be treated as a clean settlement or quoting source yet.",
+      "nextStep": "Compare the affected selections against an independent source before quoting or settling.",
+      "flagCount": 3,
+      "matches": [
+        "wc-fra-ger-20260626"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    },
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "priority": 3,
+      "severity": "high",
+      "title": "Throttle trading decisions",
+      "detail": "Large implied-probability movement can indicate breaking team news, feed correction, or stale previous-state assumptions.",
+      "nextStep": "Request a fresh snapshot and require an operator or strategy rule to acknowledge the move.",
+      "flagCount": 4,
+      "matches": [
+        "wc-arg-bra-20260627",
+        "wc-fra-ger-20260626"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    },
+    {
+      "code": "STALE_FEED",
+      "priority": 4,
+      "severity": "high",
+      "title": "Refresh the feed before action",
+      "detail": "A stale market update should not drive automated trading, pricing, or settlement workflows.",
+      "nextStep": "Pull a newer provider snapshot or suppress the market until the update age returns inside threshold.",
+      "flagCount": 2,
+      "matches": [
+        "wc-arg-bra-20260627",
+        "wc-fra-ger-20260626"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    }
+  ],
   "flags": [
     {
       "code": "EVENT_MARKET_MISMATCH",

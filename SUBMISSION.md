@@ -53,7 +53,7 @@ TxODDS World Cup Sentinel
 Short description:
 
 ```text
-A replayable World Cup odds integrity monitor that turns fixture-shaped TxODDS data into judge-readable risk signals for stale feeds, odds shocks, overround anomalies, settlement drift, and finished-event/open-settlement mismatches.
+A replayable World Cup odds integrity monitor that turns fixture-shaped TxODDS data into judge-readable risk signals and deterministic agent actions for stale feeds, odds shocks, overround anomalies, settlement drift, and finished-event/open-settlement mismatches.
 ```
 
 Anything else:
@@ -85,7 +85,8 @@ The analyzer includes an offline captured-payload normalizer for TxODDS-shaped J
 - Analyzer, captured TxODDS payload normalizer, and static renderer are
   dependency-free Node scripts.
 - Public machine-readable reports are generated at `/report.json` and
-  `/txodds-capture-report.json` for direct judge inspection.
+  `/txodds-capture-report.json` for direct judge inspection, including
+  recommended agent actions derived from the ranked flags.
 - A public judge evaluation brief is generated at `/judge-brief.html` with the
   fixture report, captured TxODDS report, replay path, and safety posture on one
   static page.

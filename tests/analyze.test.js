@@ -104,3 +104,48 @@ test("flags finished events whose external settlement is still open", () => {
   assert.ok(report.flags.some((flag) => flag.code === "SETTLEMENT_DRIFT"));
   assert.ok(report.riskScore > 0);
 });
+
+test("builds deterministic recommended agent actions from flags", () => {
+  const report = analyzeFeed(
+    {
+      generatedAt: "2026-06-26T06:00:00.000Z",
+      matches: [
+        {
+          id: "match-3",
+          status: "finished",
+          eventState: { phase: "finished" },
+          markets: [
+            {
+              id: "winner",
+              name: "Winner",
+              provider: "fixture",
+              lastUpdated: "2026-06-26T05:20:00.000Z",
+              selections: [
+                { name: "Home", odds: 1.2, previousOdds: 2.2 },
+                { name: "Draw", odds: 8, previousOdds: 4 },
+                { name: "Away", odds: 12, previousOdds: 3 }
+              ],
+              externalSettlement: {
+                status: "open",
+                implied: {
+                  Home: 0.98,
+                  Draw: 0.01,
+                  Away: 0.01
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    { now: "2026-06-26T06:00:00.000Z" }
+  );
+
+  assert.ok(report.recommendedActionCount >= 4);
+  assert.deepEqual(
+    report.recommendedActions.slice(0, 3).map((action) => action.code),
+    ["EVENT_MARKET_MISMATCH", "SETTLEMENT_DRIFT", "LARGE_ODDS_MOVE"]
+  );
+  assert.equal(report.recommendedActions[0].title, "Pause settlement automation");
+  assert.deepEqual(report.recommendedActions[0].matches, ["match-3"]);
+});

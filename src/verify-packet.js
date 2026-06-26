@@ -64,14 +64,16 @@ async function main() {
     matchCount: 2,
     marketCount: 2,
     flagCount: 10,
-    riskScore: 35
+    riskScore: 35,
+    recommendedActionCount: 4
   });
 
   assertReportSummary(txoddsReport, {
     matchCount: 1,
     marketCount: 1,
     flagCount: 2,
-    riskScore: 5
+    riskScore: 5,
+    recommendedActionCount: 2
   });
 
   assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
@@ -102,12 +104,15 @@ async function main() {
 
   await assertContains("public/index.html", [
     "World Cup odds integrity watch",
+    "What an automated strategy should do",
+    "Pause settlement automation",
     "judge-brief.html",
     "replay-manifest.json"
   ]);
   await assertContains("public/judge-brief.html", [
     "Judge evaluation brief",
-    "Captured TxODDS report"
+    "Captured TxODDS report",
+    "Strategy guardrails"
   ]);
   await assertContains("public/compliance.html", [
     "without wallet or account setup",
@@ -130,6 +135,8 @@ async function main() {
     artifactCount: manifest.artifacts.length,
     fixtureRiskScore: report.riskScore,
     txoddsCaptureRiskScore: txoddsReport.riskScore,
+    fixtureRecommendedActions: report.recommendedActionCount,
+    txoddsCaptureRecommendedActions: txoddsReport.recommendedActionCount,
     safety: manifest.safety
   };
 

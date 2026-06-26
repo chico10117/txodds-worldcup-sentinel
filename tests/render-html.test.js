@@ -60,6 +60,8 @@ test("renders a deterministic static demo report", () => {
   const html = renderReportHtml(report);
   assert.match(html, /World Cup odds integrity watch/);
   assert.match(html, /EVENT_MARKET_MISMATCH/);
+  assert.match(html, /What an automated strategy should do/);
+  assert.match(html, /Pause settlement automation/);
   assert.match(html, /report\.json/);
   assert.match(html, /txodds-capture-report\.json/);
   assert.match(html, /replay-manifest\.json/);
@@ -211,6 +213,8 @@ test("renders a judge evaluation brief with escaped report data", () => {
   assert.match(html, /Judge evaluation brief/);
   assert.match(html, /Fixture report/);
   assert.match(html, /Captured TxODDS report/);
+  assert.match(html, /Strategy guardrails/);
+  assert.match(html, /Pause settlement automation/);
   assert.match(html, /does not connect a wallet/);
   assert.match(html, /compliance\.html/);
   assert.match(html, /judge-playground\.html/);

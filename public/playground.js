@@ -339,6 +339,104 @@ function analyzeMarket(match, market, options) {
   };
 }
 
+const ACTION_TEMPLATES = Object.freeze({
+  EVENT_MARKET_MISMATCH: {
+    priority: 1,
+    title: "Pause settlement automation",
+    detail:
+      "Finished events still showing open settlement state should be held for manual review before any automated payout, market close, or downstream agent action.",
+    nextStep: "Refresh event and settlement sources, then release automation only after the states agree."
+  },
+  SETTLEMENT_DRIFT: {
+    priority: 2,
+    title: "Require cross-source review",
+    detail:
+      "Large probability drift against the settlement reference means the market should not be treated as a clean settlement or quoting source yet.",
+    nextStep: "Compare the affected selections against an independent source before quoting or settling."
+  },
+  LARGE_ODDS_MOVE: {
+    priority: 3,
+    title: "Throttle trading decisions",
+    detail:
+      "Large implied-probability movement can indicate breaking team news, feed correction, or stale previous-state assumptions.",
+    nextStep: "Request a fresh snapshot and require an operator or strategy rule to acknowledge the move."
+  },
+  STALE_FEED: {
+    priority: 4,
+    title: "Refresh the feed before action",
+    detail:
+      "A stale market update should not drive automated trading, pricing, or settlement workflows.",
+    nextStep: "Pull a newer provider snapshot or suppress the market until the update age returns inside threshold."
+  },
+  OVERROUND_OUTLIER: {
+    priority: 5,
+    title: "Check book margin mapping",
+    detail:
+      "Outlier overround can point to malformed odds, incomplete selections, or a provider mapping issue.",
+    nextStep: "Verify all selections are present and decimal odds were normalized correctly."
+  }
+});
+
+function severityRank(severity) {
+  if (severity === "high") {
+    return 3;
+  }
+  if (severity === "medium") {
+    return 2;
+  }
+  return 1;
+}
+
+function highestSeverity(flags) {
+  return flags.reduce(
+    (current, flag) => (severityRank(flag.severity) > severityRank(current) ? flag.severity : current),
+    "low"
+  );
+}
+
+function buildRecommendedActions(flags) {
+  const grouped = new Map();
+  for (const flag of flags) {
+    const template = ACTION_TEMPLATES[flag.code];
+    if (!template) {
+      continue;
+    }
+    const entry = grouped.get(flag.code) ?? {
+      code: flag.code,
+      ...template,
+      flagCount: 0,
+      matches: new Set(),
+      markets: new Set(),
+      flags: []
+    };
+    entry.flagCount += 1;
+    entry.matches.add(flag.matchId);
+    entry.markets.add(flag.marketId);
+    entry.flags.push(flag);
+    grouped.set(flag.code, entry);
+  }
+
+  return [...grouped.values()]
+    .map((entry) => ({
+      code: entry.code,
+      priority: entry.priority,
+      severity: highestSeverity(entry.flags),
+      title: entry.title,
+      detail: entry.detail,
+      nextStep: entry.nextStep,
+      flagCount: entry.flagCount,
+      matches: [...entry.matches].sort(),
+      markets: [...entry.markets].sort()
+    }))
+    .sort(
+      (left, right) =>
+        left.priority - right.priority ||
+        severityRank(right.severity) - severityRank(left.severity) ||
+        right.flagCount - left.flagCount ||
+        left.code.localeCompare(right.code)
+    );
+}
+
 function analyzeFeed(feed, options = {}) {
   const normalizedOptions = {
     ...DEFAULTS,
@@ -357,6 +455,11 @@ function analyzeFeed(feed, options = {}) {
     }
   }
 
+  const sortedFlags = flags.sort(
+    (left, right) => right.score - left.score || left.code.localeCompare(right.code)
+  );
+  const recommendedActions = buildRecommendedActions(sortedFlags);
+
   return {
     generatedAt: normalizedOptions.generatedAt ?? normalizedOptions.now,
     inputGeneratedAt: feed.generatedAt ?? null,
@@ -366,7 +469,9 @@ function analyzeFeed(feed, options = {}) {
     marketCount: markets.length,
     riskScore: flags.reduce((sum, flag) => sum + flag.score, 0),
     flagCount: flags.length,
-    flags: flags.sort((left, right) => right.score - left.score || left.code.localeCompare(right.code)),
+    recommendedActionCount: recommendedActions.length,
+    recommendedActions,
+    flags: sortedFlags,
     markets
   };
 }

@@ -7,6 +7,39 @@
   "marketCount": 1,
   "riskScore": 5,
   "flagCount": 2,
+  "recommendedActionCount": 2,
+  "recommendedActions": [
+    {
+      "code": "LARGE_ODDS_MOVE",
+      "priority": 3,
+      "severity": "high",
+      "title": "Throttle trading decisions",
+      "detail": "Large implied-probability movement can indicate breaking team news, feed correction, or stale previous-state assumptions.",
+      "nextStep": "Request a fresh snapshot and require an operator or strategy rule to acknowledge the move.",
+      "flagCount": 1,
+      "matches": [
+        "tx-wc-arg-bra-20260627"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    },
+    {
+      "code": "STALE_FEED",
+      "priority": 4,
+      "severity": "medium",
+      "title": "Refresh the feed before action",
+      "detail": "A stale market update should not drive automated trading, pricing, or settlement workflows.",
+      "nextStep": "Pull a newer provider snapshot or suppress the market until the update age returns inside threshold.",
+      "flagCount": 1,
+      "matches": [
+        "tx-wc-arg-bra-20260627"
+      ],
+      "markets": [
+        "match_winner"
+      ]
+    }
+  ],
   "flags": [
     {
       "code": "LARGE_ODDS_MOVE",
