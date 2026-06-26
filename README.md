@@ -2,9 +2,10 @@
 
 Keyless local prototype for the Superteam / TxODDS World Cup hackathon lead.
 
-This is a fixture-driven odds and event sentinel. It does not call TxODDS,
-Solana RPC, mainnet, testnet, or any external API. It exists to make the MVP
-shape testable before a safe API-token route is available.
+This is a fixture-driven odds and event sentinel with a safe captured-payload
+adapter boundary. It does not call TxODDS, Solana RPC, mainnet, testnet, or any
+external API. It exists to make the MVP shape testable before a safe API-token
+route is available.
 
 ## What It Checks
 
@@ -22,8 +23,10 @@ npm test
 npm run build
 npm run build:video
 npm run report
+npm run report:txodds
 npm run build:demo
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
+node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z
 ```
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
@@ -38,6 +41,10 @@ phrases, or API tokens in this repo.
 
 When a safe token path exists, add an adapter that writes the same feed shape as
 `fixtures/sample-worldcup-feed.json`, then keep the analyzer and tests unchanged.
+For pre-token review, `src/normalize-txodds.js` can normalize a captured
+TxODDS-shaped JSON payload from `events`, `fixtures`, or `matches` arrays into
+the analyzer feed shape. This supports offline judge/demo review without
+committing API tokens or making live network calls.
 
 ## Hackathon Fit
 

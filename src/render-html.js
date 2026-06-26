@@ -376,7 +376,7 @@ export function renderReportHtml(report) {
       <div>
         <p class="eyebrow">TxODDS fixture sentinel / demo-data mode</p>
         <h1>World Cup odds integrity watch</h1>
-        <p class="brief">Static report generated from replayable demo data. The analyzer highlights stale feeds, odds shocks, overround anomalies, and settlement drift without custody, wallet signing, or live API keys.</p>
+        <p class="brief">Static report generated from replayable demo data. The analyzer highlights stale feeds, odds shocks, overround anomalies, and settlement drift without custody, wallet signing, or live API keys. Captured TxODDS-shaped JSON can be normalized offline before a safe token path exists.</p>
       </div>
       <aside class="status-board" aria-label="Report summary">
         <div class="metric status"><span>Risk state</span><strong>${escapeHtml(status)}</strong></div>
@@ -426,7 +426,7 @@ export function renderReportHtml(report) {
     </section>
 
     <footer>
-      Demo-data mode only. Live TxODDS integration should use an adapter that emits the same feed shape after a safe API-token route exists. This page does not require a wallet, paid subscription, private key, seed phrase, or external network call.
+      Demo-data mode only. Live TxODDS integration should use the captured-payload normalizer or an adapter that emits the same feed shape after a safe API-token route exists. This page does not require a wallet, paid subscription, private key, seed phrase, or external network call.
     </footer>
   </main>
 </body>

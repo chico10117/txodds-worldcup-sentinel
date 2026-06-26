@@ -42,10 +42,14 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 
 - Live public static MVP exists.
 - Public repository exists.
-- Analyzer and static renderer are dependency-free Node scripts.
+- Analyzer, captured TxODDS payload normalizer, and static renderer are
+  dependency-free Node scripts.
 - Captioned demo video exists at `media/demo.mp4`.
 - Demo video recording plan exists in `DEMO_VIDEO_SCRIPT.md`.
-- Live TxODDS adapter is intentionally not included until a safe wallet/API-token path exists.
+- Live TxODDS network calls are intentionally not included until a safe
+  wallet/API-token path exists. The repo now includes an offline captured-payload
+  boundary (`src/normalize-txodds.js`) so TxODDS-shaped JSON can be analyzed
+  without private keys, API tokens, or external calls.
 
 ## Validation Commands
 
@@ -53,5 +57,7 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 npm test
 npm run build
 npm run build:video
+npm run report:txodds
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
+node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z
 ```

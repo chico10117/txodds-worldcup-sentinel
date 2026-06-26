@@ -1,0 +1,61 @@
+{
+  "capturedAt": "2026-06-26T06:00:00.000Z",
+  "source": "txodds-worldcup-capture",
+  "subscription": {
+    "serviceLevelId": 1
+  },
+  "events": [
+    {
+      "eventId": "tx-wc-arg-bra-20260627",
+      "competition": "World Cup",
+      "homeTeam": {
+        "name": "Argentina"
+      },
+      "awayTeam": {
+        "name": "Brazil"
+      },
+      "status": "pre_match",
+      "startTime": "2026-06-27T18:00:00.000Z",
+      "score": {
+        "home": 0,
+        "away": 0
+      },
+      "updatedAt": "2026-06-26T05:58:00.000Z",
+      "markets": [
+        {
+          "marketId": "match_winner",
+          "marketName": "Match winner",
+          "source": "txodds-worldcup",
+          "updatedAt": "2026-06-26T05:57:00.000Z",
+          "outcomes": [
+            {
+              "label": "Argentina",
+              "decimalOdds": 2.1,
+              "previousDecimalOdds": 2.55
+            },
+            {
+              "label": "Draw",
+              "decimalOdds": 3.4,
+              "previousDecimalOdds": 3.3
+            },
+            {
+              "label": "Brazil",
+              "decimalOdds": 3.2,
+              "previousDecimalOdds": 2.95
+            }
+          ],
+          "settlement": {
+            "source": "prediction-market-demo",
+            "status": "open",
+            "updatedAt": "2026-06-26T05:58:00.000Z",
+            "impliedProbabilities": {
+              "Argentina": 0.46,
+              "Draw": 0.27,
+              "Brazil": 0.27
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

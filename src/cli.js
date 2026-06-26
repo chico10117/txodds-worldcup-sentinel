@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { readFile } from "node:fs/promises";
 import { analyzeFeed } from "./analyze.js";
+import { normalizeTxOddsPayload } from "./normalize-txodds.js";
 
 function parseArgs(argv) {
   const args = [...argv];
@@ -11,6 +12,8 @@ function parseArgs(argv) {
     const arg = args[index];
     if (arg === "--now") {
       options.now = args[++index];
+    } else if (arg === "--input-format") {
+      options.inputFormat = args[++index];
     } else if (arg === "--stale-minutes") {
       options.staleMinutes = Number(args[++index]);
     } else if (arg === "--move-threshold") {
@@ -21,7 +24,11 @@ function parseArgs(argv) {
   }
 
   if (!inputPath) {
-    throw new Error("usage: node src/cli.js <feed.json> [--now ISO] [--stale-minutes N] [--move-threshold N]");
+    throw new Error("usage: node src/cli.js <feed.json> [--input-format fixture|txodds] [--now ISO] [--stale-minutes N] [--move-threshold N]");
+  }
+
+  if (options.inputFormat && !["fixture", "txodds"].includes(options.inputFormat)) {
+    throw new Error("--input-format must be fixture or txodds");
   }
 
   return { inputPath, options };
@@ -30,8 +37,10 @@ function parseArgs(argv) {
 async function main() {
   const { inputPath, options } = parseArgs(process.argv.slice(2));
   const raw = await readFile(inputPath, "utf8");
-  const feed = JSON.parse(raw);
-  const report = analyzeFeed(feed, options);
+  const payload = JSON.parse(raw);
+  const { inputFormat = "fixture", ...analysisOptions } = options;
+  const feed = inputFormat === "txodds" ? normalizeTxOddsPayload(payload) : payload;
+  const report = analyzeFeed(feed, analysisOptions);
   console.log(JSON.stringify(report, null, 2));
 }
 
