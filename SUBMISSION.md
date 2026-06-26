@@ -20,6 +20,12 @@ Judge brief:
 https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
 ```
 
+Hackathon compliance note:
+
+```text
+https://txodds-worldcup-sentinel.vercel.app/compliance.html
+```
+
 Demo video:
 
 ```text
@@ -67,6 +73,8 @@ The current public MVP intentionally runs in demo-data mode. It does not ask jud
 - A public judge evaluation brief is generated at `/judge-brief.html` with the
   fixture report, captured TxODDS report, replay path, and safety posture on one
   static page.
+- A public hackathon compliance note is generated at `/compliance.html` to make
+  the no-wallet, no-account, no-token judge review path explicit.
 - A public browser-playable demo video page is generated at `/demo-video.html`.
 - A public paste-in judge playground is generated at `/judge-playground.html`
   so reviewers can paste captured TxODDS-shaped JSON and run the analyzer
@@ -89,6 +97,7 @@ npm run build
 npm run build:video
 npm run report:txodds
 jq '{project, mode, commands, artifactCount:(.artifacts|length), safety}' public/replay-manifest.json
+jq '{urls, safety}' public/replay-manifest.json
 node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000Z
 node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z
 ```

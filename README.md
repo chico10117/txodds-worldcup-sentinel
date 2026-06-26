@@ -31,11 +31,12 @@ node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 
 
 The CLI prints a JSON report with market summaries, ranked flags, and a simple
 risk score. The demo build writes `public/index.html`,
-`public/judge-brief.html`, `public/demo-video.html`,
+`public/judge-brief.html`, `public/compliance.html`, `public/demo-video.html`,
 `public/judge-playground.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges
-can inspect the rendered report, one-page evaluation brief, captioned video,
-paste captured TxODDS-shaped JSON into a browser-only analyzer, review
+can inspect the rendered report, one-page evaluation brief, no-wallet
+compliance note, captioned video, paste captured TxODDS-shaped JSON into a
+browser-only analyzer, review
 machine-readable analyzer output, replay commands, artifact hashes, and safety
 assumptions without a backend.
 
@@ -73,6 +74,7 @@ Current Vercel deployment:
 ```text
 https://txodds-worldcup-sentinel.vercel.app
 https://txodds-worldcup-sentinel.vercel.app/judge-brief.html
+https://txodds-worldcup-sentinel.vercel.app/compliance.html
 https://txodds-worldcup-sentinel.vercel.app/demo-video.html
 https://txodds-worldcup-sentinel.vercel.app/judge-playground.html
 ```
@@ -93,6 +95,11 @@ the no-private-key/no-token/no-network-call safety posture.
 
 The judge brief summarizes the fixture report, captured TxODDS report, replay
 path, and safety posture in a single static page for fast review.
+
+The compliance note summarizes why the public packet is intentionally
+self-contained for judging: no wallet connection, account setup, subscription,
+API token, private key, seed phrase, or live network call is needed to assess
+the MVP.
 
 The judge playground runs entirely in the browser from `public/playground.js`.
 It accepts pasted TxODDS-shaped JSON and writes results through DOM text nodes,

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TxODDS World Cup Sentinel Compliance Note</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f6f1e8;
+      --muted: #abb6ac;
+      --line: #30362f;
+      --panel: #151914;
+      --page: #090c09;
+      --green: #7dde92;
+      --cyan: #7dd3fc;
+      --amber: #f6c85f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        linear-gradient(135deg, rgba(125, 222, 146, 0.10), transparent 28rem),
+        linear-gradient(225deg, rgba(125, 211, 252, 0.10), transparent 24rem),
+        var(--page);
+      color: var(--ink);
+      font-family: "Avenir Next", "Gill Sans", Verdana, sans-serif;
+      letter-spacing: 0;
+    }
+
+    main {
+      width: min(1040px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0 48px;
+    }
+
+    h1, h2, p { margin: 0; }
+
+    h1 {
+      max-width: 760px;
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: clamp(2.1rem, 5vw, 4.8rem);
+      line-height: 0.98;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-family: "Iowan Old Style", "Palatino Linotype", serif;
+      font-size: 1.45rem;
+      line-height: 1.1;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-family: Menlo, Consolas, monospace;
+      font-size: 0.75rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    .brief {
+      margin-top: 16px;
+      color: var(--muted);
+      max-width: 760px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .panel, .metric {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.84);
+      padding: 18px;
+    }
+
+    .panel p, .panel li {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .panel h2 { margin-bottom: 12px; }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li + li { margin-top: 8px; }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      color: var(--amber);
+      display: block;
+      font-size: 1.4rem;
+      margin-top: 7px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    a { color: var(--cyan); }
+
+    .links a {
+      border: 1px solid var(--line);
+      background: rgba(21, 25, 20, 0.84);
+      padding: 10px 12px;
+      text-decoration: none;
+    }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 32px;
+      padding-top: 18px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 760px) {
+      main { width: min(100% - 20px, 1040px); padding-top: 22px; }
+      .grid, .summary { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">TxODDS World Cup Sentinel / compliance note</p>
+    <h1>Reviewable without wallet or account setup</h1>
+    <p class="brief">The public MVP is intentionally self-contained for judging. The live TxODDS adapter boundary is documented, but reviewers can inspect the working analyzer, replay reports, video, and paste-in playground without buying software, connecting a wallet, creating an account, paying for a subscription, or receiving an API token.</p>
+
+    <section class="summary" aria-label="Compliance summary">
+      <div class="metric"><span>Review mode</span><strong>self-contained</strong></div>
+      <div class="metric"><span>Wallet required</span><strong>no</strong></div>
+      <div class="metric"><span>Fixture flags</span><strong>10</strong></div>
+    </section>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Hackathon assessment fit</h2>
+        <ul>
+          <li>The public pages are static artifacts and can be reviewed in a browser.</li>
+          <li>The generated reports and replay manifest expose the analyzer output, commands, and SHA-256 hashes.</li>
+          <li>The browser playground analyzes pasted TxODDS-shaped JSON locally and does not send data to a server.</li>
+          <li>The demo video page provides a direct review path when a judge does not run code locally.</li>
+        </ul>
+      </article>
+
+      <article class="panel">
+        <h2>Deliberate live-data boundary</h2>
+        <ul>
+          <li>No private keys, seed phrases, API tokens, payment cards, or wallet signatures are included.</li>
+          <li>The deterministic build does not call TxODDS, Solana RPC, mainnet, testnet, or any external API.</li>
+          <li>The captured-payload normalizer shows how TxODDS-shaped JSON enters the analyzer without exposing credentials.</li>
+          <li>A live TxODDS adapter should be added only after a safe user-controlled API-token route exists.</li>
+        </ul>
+      </article>
+    </section>
+
+    <nav class="links" aria-label="Reviewer links">
+      <a href="./index.html">Live MVP report</a>
+      <a href="./judge-brief.html">Judge brief</a>
+      <a href="./demo-video.html">Demo video page</a>
+      <a href="./judge-playground.html">Judge playground</a>
+      <a href="./replay-manifest.json">Replay manifest</a>
+      <a href="https://txline.txodds.com/documentation/legal/hackathon-terms">Hackathon terms</a>
+      <a href="https://github.com/chico10117/txodds-worldcup-sentinel">Public repository</a>
+    </nav>
+
+    <footer>
+      <p>Generated at 2026-06-26T06:20:00.000Z. This page is a reviewer convenience artifact; the authoritative replay evidence remains the public repository, generated reports, and replay manifest.</p>
+    </footer>
+  </main>
+</body>
+</html>

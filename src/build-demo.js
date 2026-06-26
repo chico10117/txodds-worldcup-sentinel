@@ -6,6 +6,7 @@ import { analyzeFeed } from "./analyze.js";
 import { normalizeTxOddsPayload } from "./normalize-txodds.js";
 import {
   renderDemoVideoHtml,
+  renderComplianceHtml,
   renderJudgeBriefHtml,
   renderPlaygroundHtml,
   renderReportHtml
@@ -38,6 +39,8 @@ function parseArgs(argv) {
       artifacts.playgroundJsPath = args[++index];
     } else if (arg === "--judge-brief-html") {
       artifacts.judgeBriefHtmlPath = args[++index];
+    } else if (arg === "--compliance-html") {
+      artifacts.complianceHtmlPath = args[++index];
     } else if (arg === "--manifest-json") {
       artifacts.manifestJsonPath = args[++index];
     } else {
@@ -47,7 +50,7 @@ function parseArgs(argv) {
 
   if (!inputPath || !outputPath) {
     throw new Error(
-      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--playground-html PATH --playground-js PATH] [--judge-brief-html PATH] [--manifest-json PATH]"
+      "usage: node src/build-demo.js <feed.json> <output.html> [--now ISO] [--generated-at ISO] [--report-json PATH] [--txodds-input PATH --txodds-report-json PATH] [--demo-video-html PATH] [--playground-html PATH --playground-js PATH] [--judge-brief-html PATH] [--compliance-html PATH] [--manifest-json PATH]"
     );
   }
 
@@ -157,6 +160,14 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
     );
   }
 
+  if (artifacts.complianceHtmlPath) {
+    manifestArtifacts.splice(
+      2,
+      0,
+      await artifact(artifacts.complianceHtmlPath, "Public hackathon compliance note")
+    );
+  }
+
   return {
     generatedAt: report.generatedAt,
     project: "TxODDS World Cup Sentinel",
@@ -170,6 +181,7 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
       judgePlayground:
         "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
       judgeBrief: "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
+      compliance: "https://txodds-worldcup-sentinel.vercel.app/compliance.html",
       demoVideo:
         "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
       reportJson: "https://txodds-worldcup-sentinel.vercel.app/report.json",
@@ -196,6 +208,8 @@ async function buildReplayManifest({ inputPath, outputPath, artifacts, report, t
       noSeedPhrases: true,
       noApiTokens: true,
       noWalletConnectionRequired: true,
+      noJudgeWalletOrAccountRequired: true,
+      noPaidSubscriptionRequiredForReview: true,
       noNetworkCallsInBuild: true,
       liveTxOddsCallsIncluded: false
     }
@@ -217,6 +231,12 @@ async function main() {
     await mkdir(dirname(artifacts.demoVideoHtmlPath), { recursive: true });
     await writeFile(artifacts.demoVideoHtmlPath, renderDemoVideoHtml(report));
     console.log(`wrote ${artifacts.demoVideoHtmlPath}`);
+  }
+
+  if (artifacts.complianceHtmlPath) {
+    await mkdir(dirname(artifacts.complianceHtmlPath), { recursive: true });
+    await writeFile(artifacts.complianceHtmlPath, renderComplianceHtml(report));
+    console.log(`wrote ${artifacts.complianceHtmlPath}`);
   }
 
   if (artifacts.reportJsonPath) {

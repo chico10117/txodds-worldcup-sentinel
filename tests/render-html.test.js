@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { analyzeFeed } from "../src/analyze.js";
 import {
   escapeHtml,
+  renderComplianceHtml,
   renderDemoVideoHtml,
   renderJudgeBriefHtml,
   renderPlaygroundHtml,
@@ -65,6 +66,7 @@ test("renders a deterministic static demo report", () => {
   assert.match(html, /demo-video\.html/);
   assert.match(html, /judge-playground\.html/);
   assert.match(html, /judge-brief\.html/);
+  assert.match(html, /compliance\.html/);
   assert.match(html, /unsafe-&lt;match&gt;/);
   assert.doesNotMatch(html, /unsafe-<match>/);
 });
@@ -90,7 +92,30 @@ test("renders a directly playable demo video page", () => {
   );
   assert.match(html, /replay-manifest\.json/);
   assert.match(html, /judge-brief\.html/);
+  assert.match(html, /compliance\.html/);
   assert.match(html, /does not request wallet connection/);
+});
+
+test("renders a hackathon compliance note without wallet requirements", () => {
+  const report = analyzeFeed(
+    {
+      generatedAt: "2026-06-26T06:00:00.000Z",
+      serviceLevelId: 1,
+      matches: []
+    },
+    {
+      now: "2026-06-26T06:20:00.000Z",
+      generatedAt: "2026-06-26T06:20:00.000Z"
+    }
+  );
+
+  const html = renderComplianceHtml(report);
+  assert.match(html, /Reviewable without wallet or account setup/);
+  assert.match(html, /without buying software/);
+  assert.match(html, /Wallet required/);
+  assert.match(html, /Hackathon terms/);
+  assert.match(html, /judge-playground\.html/);
+  assert.match(html, /replay-manifest\.json/);
 });
 
 test("renders a browser-only judge playground with escaped sample payload", () => {
@@ -109,6 +134,7 @@ test("renders a browser-only judge playground with escaped sample payload", () =
   assert.match(html, /playground\.js/);
   assert.match(html, /does not connect a wallet/);
   assert.match(html, /judge-brief\.html/);
+  assert.match(html, /compliance\.html/);
   assert.match(html, /unsafe-\\u003cevent>/);
   assert.doesNotMatch(html, /unsafe-<event>/);
 });
@@ -186,6 +212,7 @@ test("renders a judge evaluation brief with escaped report data", () => {
   assert.match(html, /Fixture report/);
   assert.match(html, /Captured TxODDS report/);
   assert.match(html, /does not connect a wallet/);
+  assert.match(html, /compliance\.html/);
   assert.match(html, /judge-playground\.html/);
   assert.match(html, /replay-manifest\.json/);
   assert.match(html, /fixture-&lt;match&gt;/);

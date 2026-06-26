@@ -9,6 +9,7 @@
     "demoVideoPage": "https://txodds-worldcup-sentinel.vercel.app/demo-video.html",
     "judgePlayground": "https://txodds-worldcup-sentinel.vercel.app/judge-playground.html",
     "judgeBrief": "https://txodds-worldcup-sentinel.vercel.app/judge-brief.html",
+    "compliance": "https://txodds-worldcup-sentinel.vercel.app/compliance.html",
     "demoVideo": "https://github.com/chico10117/txodds-worldcup-sentinel/blob/main/media/demo.mp4",
     "reportJson": "https://txodds-worldcup-sentinel.vercel.app/report.json",
     "txoddsCaptureReportJson": "https://txodds-worldcup-sentinel.vercel.app/txodds-capture-report.json",
@@ -53,26 +54,32 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "e976d39f09abcbda999e6ef2c9d7f2acd925c6f371bea169c7872ce1422bf4de",
-      "sizeBytes": 14461
+      "sha256": "21f91262a65446632e17d10ea2820653031c0a4301cc4119db10985c473b8360",
+      "sizeBytes": 14520
     },
     {
       "path": "public/judge-brief.html",
       "description": "Public judge evaluation brief",
-      "sha256": "80ef75961aa4a17a74ebe7bd79627f4b9973e499f1058b8f2a5004027f09db74",
-      "sizeBytes": 9661
+      "sha256": "c405d50bb18648ee6b915f92828dcca03f483b2c2f51253fa9d0b7f4ecc7409d",
+      "sizeBytes": 9715
+    },
+    {
+      "path": "public/compliance.html",
+      "description": "Public hackathon compliance note",
+      "sha256": "f871c2125a42c17e229af365015277a1b16eff9234c8e3ffc12ca0a9f1d55fbe",
+      "sizeBytes": 5931
     },
     {
       "path": "public/demo-video.html",
       "description": "Public demo video review page",
-      "sha256": "1cb1238333b48127e3a036ae3f926bb4ca2b576d3c1e300990e7e90fd506a6c6",
-      "sizeBytes": 4838
+      "sha256": "6df4ceeb2b7cc06c00926db68cf8a28a2fd6414aeebfc471c538d44d578b10fc",
+      "sizeBytes": 4892
     },
     {
       "path": "public/judge-playground.html",
       "description": "Public paste-in TxODDS judge playground",
-      "sha256": "74427433daad107cb492256dbc507e1c62c3665b44d1b4a4ea25592af065a7f5",
-      "sizeBytes": 7806
+      "sha256": "d142b1481d7a3788afd84df0133b2a51d13e546aea65fd112249645f348c6b9e",
+      "sizeBytes": 7865
     },
     {
       "path": "public/playground.js",
@@ -150,20 +157,20 @@
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "b9ebd4160968e7f10cdd09712255a2edff09fde5bf77a9eee542d24556bc9124",
-      "sizeBytes": 32487
+      "sha256": "de8ed47012ea5f3e34e8713dcc3c0b9e0b3369a64fe8d1d4eec3f22a64799808",
+      "sizeBytes": 38792
     },
     {
       "path": "package.json",
       "description": "Node scripts and reproducible build entrypoints",
-      "sha256": "ca94c0cd188534a65c9155fcd554f13080d4731d05a33e17d8b9d969351dffa8",
-      "sizeBytes": 1137
+      "sha256": "95bcd7cc64f19a1febeabf14a172c2e04435566dd717894c893c68b40df9ce0e",
+      "sizeBytes": 1178
     },
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "2a7214592710774240cd23223103ca90ce1329b416d14434de2df40083262cbb",
-      "sizeBytes": 3022
+      "sha256": "258b27020bc2805260a87544c8d2d1356499957d57f0344e9c726a78a4ab0fc9",
+      "sizeBytes": 3317
     }
   ],
   "safety": {
@@ -171,6 +178,8 @@
     "noSeedPhrases": true,
     "noApiTokens": true,
     "noWalletConnectionRequired": true,
+    "noJudgeWalletOrAccountRequired": true,
+    "noPaidSubscriptionRequiredForReview": true,
     "noNetworkCallsInBuild": true,
     "liveTxOddsCallsIncluded": false
   }

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npm run build:demo",
-    "build:demo": "node src/build-demo.js fixtures/sample-worldcup-feed.json public/index.html --now 2026-06-26T06:20:00.000Z --generated-at 2026-06-26T06:20:00.000Z --report-json public/report.json --txodds-input fixtures/sample-txodds-capture.json --txodds-report-json public/txodds-capture-report.json --demo-video-html public/demo-video.html --playground-html public/judge-playground.html --playground-js public/playground.js --judge-brief-html public/judge-brief.html --manifest-json public/replay-manifest.json",
+    "build:demo": "node src/build-demo.js fixtures/sample-worldcup-feed.json public/index.html --now 2026-06-26T06:20:00.000Z --generated-at 2026-06-26T06:20:00.000Z --report-json public/report.json --txodds-input fixtures/sample-txodds-capture.json --txodds-report-json public/txodds-capture-report.json --demo-video-html public/demo-video.html --playground-html public/judge-playground.html --playground-js public/playground.js --judge-brief-html public/judge-brief.html --compliance-html public/compliance.html --manifest-json public/replay-manifest.json",
     "build:video": "node src/build-demo-video.js fixtures/sample-worldcup-feed.json media/demo.mp4 --now 2026-06-26T06:20:00.000Z",
     "report": "node src/cli.js fixtures/sample-worldcup-feed.json",
     "report:txodds": "node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds",
