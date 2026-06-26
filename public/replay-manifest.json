@@ -35,6 +35,18 @@
       "riskScore": 35,
       "recommendedActionCount": 4,
       "automationReadinessState": "blocked",
+      "riskSummary": {
+        "highestSeverity": "high",
+        "marketsWithFlags": 2,
+        "blockedMarkets": 2,
+        "maxSettlementLagMinutes": 198,
+        "maxAbsProbabilityMovePctPoints": 25.97,
+        "primaryBlockingFlagCodes": [
+          "EVENT_MARKET_MISMATCH",
+          "LARGE_ODDS_MOVE",
+          "SETTLEMENT_DRIFT"
+        ]
+      },
       "topRecommendedActions": [
         "EVENT_MARKET_MISMATCH",
         "SETTLEMENT_DRIFT",
@@ -56,6 +68,16 @@
       "riskScore": 5,
       "recommendedActionCount": 2,
       "automationReadinessState": "blocked",
+      "riskSummary": {
+        "highestSeverity": "high",
+        "marketsWithFlags": 1,
+        "blockedMarkets": 1,
+        "maxSettlementLagMinutes": null,
+        "maxAbsProbabilityMovePctPoints": 8.4,
+        "primaryBlockingFlagCodes": [
+          "LARGE_ODDS_MOVE"
+        ]
+      },
       "topRecommendedActions": [
         "LARGE_ODDS_MOVE",
         "STALE_FEED"
@@ -70,8 +92,8 @@
     {
       "path": "public/index.html",
       "description": "Static public MVP HTML",
-      "sha256": "4660ea56fa003b616f198a4eca9d23b183b2d0c2ead1425399be840af75ea0bc",
-      "sizeBytes": 18292
+      "sha256": "ba74d666032d8b57937fb46d95df018a54ee40ea9cc8a66dffa80905100c3542",
+      "sizeBytes": 19934
     },
     {
       "path": "public/judge-brief.html",
@@ -112,8 +134,8 @@
     {
       "path": "public/report.json",
       "description": "Machine-readable fixture analyzer report",
-      "sha256": "3cc3d4a140ff840b6944cdd57a1da36799782ac99d6fa57cfc349e24c3cf8588",
-      "sizeBytes": 11000,
+      "sha256": "a664eb254ea56b5985964af0eebe626084f7d75e8ed28b7738610b6cfaf98ea5",
+      "sizeBytes": 11562,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 2,
@@ -122,6 +144,18 @@
         "riskScore": 35,
         "recommendedActionCount": 4,
         "automationReadinessState": "blocked",
+        "riskSummary": {
+          "highestSeverity": "high",
+          "marketsWithFlags": 2,
+          "blockedMarkets": 2,
+          "maxSettlementLagMinutes": 198,
+          "maxAbsProbabilityMovePctPoints": 25.97,
+          "primaryBlockingFlagCodes": [
+            "EVENT_MARKET_MISMATCH",
+            "LARGE_ODDS_MOVE",
+            "SETTLEMENT_DRIFT"
+          ]
+        },
         "topRecommendedActions": [
           "EVENT_MARKET_MISMATCH",
           "SETTLEMENT_DRIFT",
@@ -145,8 +179,8 @@
     {
       "path": "public/txodds-capture-report.json",
       "description": "Machine-readable captured TxODDS-shaped payload report",
-      "sha256": "f1138136982603f3803284126fa8e7e60164a11a1da4d3362eba6bfbd9a12ffb",
-      "sizeBytes": 4127,
+      "sha256": "8b2b447fac3502347b28024cb2cd6da9b8de75f5e1a4bd36856534bf3e9a94f5",
+      "sizeBytes": 4568,
       "summary": {
         "generatedAt": "2026-06-26T06:20:00.000Z",
         "matchCount": 1,
@@ -155,6 +189,16 @@
         "riskScore": 5,
         "recommendedActionCount": 2,
         "automationReadinessState": "blocked",
+        "riskSummary": {
+          "highestSeverity": "high",
+          "marketsWithFlags": 1,
+          "blockedMarkets": 1,
+          "maxSettlementLagMinutes": null,
+          "maxAbsProbabilityMovePctPoints": 8.4,
+          "primaryBlockingFlagCodes": [
+            "LARGE_ODDS_MOVE"
+          ]
+        },
         "topRecommendedActions": [
           "LARGE_ODDS_MOVE",
           "STALE_FEED"
@@ -180,14 +224,14 @@
     {
       "path": "src/analyze.js",
       "description": "Dependency-free odds and settlement analyzer",
-      "sha256": "2a9a2f3077a03763b65f36a75fc8171a21707e5966486a78822107814cb09b72",
-      "sizeBytes": 12989
+      "sha256": "df74f0c6c03d20fa9de5633c47e18ef67c8319cd3bd7599b65574139d5b0be72",
+      "sizeBytes": 14626
     },
     {
       "path": "src/render-html.js",
       "description": "Static HTML renderer",
-      "sha256": "a881724ccbcaf90731960256fffa1648b1da05fd501bcb57247b77d58509bc78",
-      "sizeBytes": 45539
+      "sha256": "9e8bc3adb0c00c9e669aaed5444844962669330eabd3a88702fb278b1e00f7a4",
+      "sizeBytes": 48134
     },
     {
       "path": "package.json",
@@ -204,14 +248,14 @@
     {
       "path": "SUBMISSION.md",
       "description": "Superteam field packet",
-      "sha256": "be9de695e94f987a90500c4e9da4f7e02deb5abba791ce8d938229054e0934f0",
-      "sizeBytes": 5715
+      "sha256": "d71894f1f20e9021d9ff46f43316119c2caec44b04aef8c9e92966af90de1582",
+      "sizeBytes": 5747
     },
     {
       "path": "REVIEW.md",
       "description": "Judge review checklist",
-      "sha256": "bad4ac43637e683434d83fa05793a7c183a661b0ac0845a91f8192db93da4a19",
-      "sizeBytes": 3426
+      "sha256": "b92bde0e73caa0d495138ece6d4052c84422e1a34f35323132300bfa42c12e80",
+      "sizeBytes": 3641
     },
     {
       "path": "public/.well-known/ai.txt",
@@ -222,8 +266,8 @@
     {
       "path": "src/verify-packet.js",
       "description": "Local public-packet verifier",
-      "sha256": "53455d1cfa5d5c81a4e8abf411326592c97740b0ea54315aaa0d0aaf76865f5a",
-      "sizeBytes": 5463
+      "sha256": "b69b28c5d4f7d82c8e31ea2b1763a6dcf601c5c02e2435e267d3ece07927a57e",
+      "sizeBytes": 6365
     }
   ],
   "safety": {

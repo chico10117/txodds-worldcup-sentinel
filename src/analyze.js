@@ -353,6 +353,48 @@ function buildAutomationReadiness(markets, flags) {
   };
 }
 
+function countBy(values) {
+  return values.reduce((counts, value) => {
+    counts[value] = (counts[value] ?? 0) + 1;
+    return counts;
+  }, {});
+}
+
+function maxFinite(values) {
+  const finiteValues = values.filter((value) => Number.isFinite(value));
+  return finiteValues.length ? Math.max(...finiteValues) : null;
+}
+
+function buildRiskSummary(markets, flags, automationReadiness) {
+  const flagCodes = flags.map((flag) => flag.code);
+  const marketStates = automationReadiness?.marketCounts ?? {};
+  const maxSettlementLagMinutes = maxFinite(
+    markets.map((market) => market.settlementLagMinutes).filter((value) => value !== null)
+  );
+  const maxAbsProbabilityMovePctPoints = maxFinite(
+    markets.flatMap((market) =>
+      market.selections
+        .map((selection) => selection.probabilityDeltaPctPoints)
+        .filter((value) => value !== null)
+        .map((value) => Math.abs(value))
+    )
+  );
+
+  return {
+    highestSeverity: highestSeverity(flags),
+    marketsWithFlags: markets.filter((market) => market.flags.length > 0).length,
+    readyMarkets: marketStates.ready ?? 0,
+    reviewMarkets: marketStates.review ?? 0,
+    blockedMarkets: marketStates.blocked ?? 0,
+    flagCounts: countBy(flagCodes),
+    severityCounts: countBy(flags.map((flag) => flag.severity)),
+    maxSettlementLagMinutes,
+    maxAbsProbabilityMovePctPoints:
+      maxAbsProbabilityMovePctPoints === null ? null : round(maxAbsProbabilityMovePctPoints, 2),
+    primaryBlockingFlagCodes: automationReadiness?.blockingFlagCodes ?? []
+  };
+}
+
 export function analyzeFeed(feed, options = {}) {
   const normalizedOptions = normalizeOptions(options);
   const matches = feed.matches ?? [];
@@ -373,6 +415,7 @@ export function analyzeFeed(feed, options = {}) {
   );
   const recommendedActions = buildRecommendedActions(sortedFlags);
   const automationReadiness = buildAutomationReadiness(marketSummaries, sortedFlags);
+  const riskSummary = buildRiskSummary(marketSummaries, sortedFlags, automationReadiness);
 
   return {
     generatedAt: normalizedOptions.generatedAt ?? new Date().toISOString(),
@@ -386,6 +429,7 @@ export function analyzeFeed(feed, options = {}) {
     recommendedActionCount: recommendedActions.length,
     recommendedActions,
     automationReadiness,
+    riskSummary,
     flags: sortedFlags,
     markets: marketSummaries
   };

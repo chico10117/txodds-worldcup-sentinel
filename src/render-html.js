@@ -130,6 +130,50 @@ function readinessCheckRows(readiness) {
     .join("");
 }
 
+function riskSummaryRows(summary) {
+  const rows = [
+    ["Highest severity", summary?.highestSeverity ?? "none"],
+    ["Markets with flags", summary?.marketsWithFlags ?? 0],
+    ["Blocked markets", summary?.blockedMarkets ?? 0],
+    ["Review markets", summary?.reviewMarkets ?? 0],
+    [
+      "Max settlement lag",
+      summary?.maxSettlementLagMinutes === null || summary?.maxSettlementLagMinutes === undefined
+        ? "n/a"
+        : `${summary.maxSettlementLagMinutes} minutes`
+    ],
+    [
+      "Max odds move",
+      summary?.maxAbsProbabilityMovePctPoints === null ||
+      summary?.maxAbsProbabilityMovePctPoints === undefined
+        ? "n/a"
+        : `${summary.maxAbsProbabilityMovePctPoints} probability points`
+    ],
+    [
+      "Primary blockers",
+      summary?.primaryBlockingFlagCodes?.length
+        ? summary.primaryBlockingFlagCodes.join(", ")
+        : "none"
+    ],
+    [
+      "Flag counts",
+      Object.entries(summary?.flagCounts ?? {})
+        .map(([code, count]) => `${code}: ${count}`)
+        .join(", ") || "none"
+    ]
+  ];
+
+  return rows
+    .map(
+      ([label, value]) => `
+        <tr>
+          <td>${escapeHtml(label)}</td>
+          <td>${escapeHtml(value)}</td>
+        </tr>`
+    )
+    .join("");
+}
+
 function selectionRows(selections) {
   return selections
     .map((selection) => {
@@ -206,6 +250,17 @@ export function renderReportHtml(report) {
   const topFlags = report.flags.slice(0, 8);
   const status = riskLabel(report.riskScore);
   const readiness = report.automationReadiness;
+  const riskSummary = report.riskSummary;
+  const maxLagLabel =
+    riskSummary?.maxSettlementLagMinutes === null ||
+    riskSummary?.maxSettlementLagMinutes === undefined
+      ? "n/a"
+      : `${riskSummary.maxSettlementLagMinutes}m`;
+  const maxMoveLabel =
+    riskSummary?.maxAbsProbabilityMovePctPoints === null ||
+    riskSummary?.maxAbsProbabilityMovePctPoints === undefined
+      ? "n/a"
+      : `${riskSummary.maxAbsProbabilityMovePctPoints}pp`;
 
   const html = `<!doctype html>
 <html lang="en">
@@ -476,8 +531,33 @@ export function renderReportHtml(report) {
         <div class="metric"><span>Markets</span><strong>${escapeHtml(report.marketCount)}</strong></div>
         <div class="metric"><span>Flags</span><strong>${escapeHtml(report.flagCount)}</strong></div>
         <div class="metric"><span>Ready markets</span><strong>${escapeHtml(readiness?.marketCounts?.ready ?? 0)}/${escapeHtml(readiness?.marketCounts?.total ?? 0)}</strong></div>
+        <div class="metric"><span>Max lag</span><strong>${escapeHtml(maxLagLabel)}</strong></div>
+        <div class="metric"><span>Max move</span><strong>${escapeHtml(maxMoveLabel)}</strong></div>
       </aside>
     </header>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit summary</p>
+          <h2>Evidence at a glance</h2>
+        </div>
+        <p>Deterministic report summary for judge review and downstream agents: maximum lag, maximum odds move, blocked-market count, and flag counts all come from the same analyzer output as the JSON reports.</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th>Evidence</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${riskSummaryRows(riskSummary)}
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     <section>
       <div class="section-head">

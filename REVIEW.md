@@ -27,6 +27,9 @@ setup, API keys, paid access, or live network calls.
 - Agent actions: the report turns those flags into deterministic next steps
   such as pausing settlement automation, refreshing stale feeds, or throttling
   trading decisions.
+- Audit summary: the report exposes max settlement lag, max odds-move
+  magnitude, blocked/review/ready market counts, severity counts, and per-flag
+  counts without requiring reviewers to inspect every market row.
 - Automation readiness: the report emits market-level `ready`, `review`, or
   `blocked` gates so an agent can avoid unsafe trading, quoting, or settlement
   automation when blocking flags are present.

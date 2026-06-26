@@ -21,6 +21,9 @@ route is available.
   automation, refreshing stale feeds, or throttling trading decisions.
 - A market-level automation readiness gate that marks snapshots as `ready`,
   `review`, or `blocked` before trading, quoting, or settlement automation.
+- A deterministic audit summary with max settlement lag, max odds-move
+  magnitude, blocked/review/ready market counts, severity counts, and per-flag
+  counts for fast judge review.
 
 ## Run
 
@@ -37,8 +40,9 @@ node src/cli.js fixtures/sample-worldcup-feed.json --now 2026-06-26T06:20:00.000
 node src/cli.js fixtures/sample-txodds-capture.json --input-format txodds --now 2026-06-26T06:20:00.000Z
 ```
 
-The CLI prints a JSON report with market summaries, ranked flags, and a simple
-risk score, recommended agent actions, and automation readiness gates. The demo build writes `public/index.html`,
+The CLI prints a JSON report with market summaries, ranked flags, a simple risk
+score, deterministic audit summary, recommended agent actions, and automation
+readiness gates. The demo build writes `public/index.html`,
 `public/judge-brief.html`, `public/compliance.html`, `public/demo-video.html`,
 `public/judge-playground.html`, `public/report.json`,
 `public/txodds-capture-report.json`, and `public/replay-manifest.json` so judges

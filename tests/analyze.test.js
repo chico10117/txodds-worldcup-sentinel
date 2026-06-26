@@ -116,6 +116,11 @@ test("flags finished events whose external settlement is still open", () => {
     "EVENT_MARKET_MISMATCH",
     "SETTLEMENT_DRIFT"
   ]);
+  assert.equal(report.riskSummary.highestSeverity, "high");
+  assert.equal(report.riskSummary.marketsWithFlags, 1);
+  assert.equal(report.riskSummary.blockedMarkets, 1);
+  assert.equal(report.riskSummary.maxSettlementLagMinutes, 20);
+  assert.equal(report.riskSummary.flagCounts.EVENT_MARKET_MISMATCH, 1);
 });
 
 test("builds deterministic recommended agent actions from flags", () => {
@@ -161,6 +166,12 @@ test("builds deterministic recommended agent actions from flags", () => {
   );
   assert.equal(report.recommendedActions[0].title, "Pause settlement automation");
   assert.deepEqual(report.recommendedActions[0].matches, ["match-3"]);
+  assert.equal(report.riskSummary.maxAbsProbabilityMovePctPoints, 37.88);
+  assert.deepEqual(report.riskSummary.primaryBlockingFlagCodes, [
+    "EVENT_MARKET_MISMATCH",
+    "LARGE_ODDS_MOVE",
+    "SETTLEMENT_DRIFT"
+  ]);
 });
 
 test("marks clean reports ready for automated read-only decisions", () => {
@@ -198,4 +209,8 @@ test("marks clean reports ready for automated read-only decisions", () => {
   assert.equal(report.automationReadiness.checks.quotingReady, true);
   assert.equal(report.automationReadiness.checks.requiresHumanReview, false);
   assert.equal(report.automationReadiness.marketCounts.ready, 1);
+  assert.equal(report.riskSummary.highestSeverity, "low");
+  assert.equal(report.riskSummary.marketsWithFlags, 0);
+  assert.equal(report.riskSummary.readyMarkets, 1);
+  assert.deepEqual(report.riskSummary.flagCounts, {});
 });

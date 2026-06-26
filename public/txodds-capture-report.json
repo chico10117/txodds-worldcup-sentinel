@@ -72,6 +72,26 @@
       }
     ]
   },
+  "riskSummary": {
+    "highestSeverity": "high",
+    "marketsWithFlags": 1,
+    "readyMarkets": 0,
+    "reviewMarkets": 0,
+    "blockedMarkets": 1,
+    "flagCounts": {
+      "LARGE_ODDS_MOVE": 1,
+      "STALE_FEED": 1
+    },
+    "severityCounts": {
+      "high": 1,
+      "medium": 1
+    },
+    "maxSettlementLagMinutes": null,
+    "maxAbsProbabilityMovePctPoints": 8.4,
+    "primaryBlockingFlagCodes": [
+      "LARGE_ODDS_MOVE"
+    ]
+  },
   "flags": [
     {
       "code": "LARGE_ODDS_MOVE",

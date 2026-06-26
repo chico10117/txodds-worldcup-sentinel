@@ -107,6 +107,15 @@ function reportSummary(report) {
     riskScore: report.riskScore,
     recommendedActionCount: report.recommendedActionCount,
     automationReadinessState: report.automationReadiness?.state ?? null,
+    riskSummary: {
+      highestSeverity: report.riskSummary?.highestSeverity ?? null,
+      marketsWithFlags: report.riskSummary?.marketsWithFlags ?? null,
+      blockedMarkets: report.riskSummary?.blockedMarkets ?? null,
+      maxSettlementLagMinutes: report.riskSummary?.maxSettlementLagMinutes ?? null,
+      maxAbsProbabilityMovePctPoints:
+        report.riskSummary?.maxAbsProbabilityMovePctPoints ?? null,
+      primaryBlockingFlagCodes: report.riskSummary?.primaryBlockingFlagCodes ?? []
+    },
     topRecommendedActions: report.recommendedActions.slice(0, 3).map((action) => action.code),
     topFlagCodes: report.flags.slice(0, 5).map((flag) => flag.code)
   };

@@ -84,6 +84,22 @@ async function main() {
     txoddsReport.automationReadiness?.state === "blocked",
     "captured TxODDS report must expose blocked automation readiness"
   );
+  assert(
+    report.riskSummary?.maxSettlementLagMinutes === 198,
+    "fixture report must expose max settlement lag"
+  );
+  assert(
+    report.riskSummary?.maxAbsProbabilityMovePctPoints === 25.97,
+    "fixture report must expose max odds move"
+  );
+  assert(
+    txoddsReport.riskSummary?.maxAbsProbabilityMovePctPoints === 8.4,
+    "captured TxODDS report must expose max odds move"
+  );
+  assert(
+    report.riskSummary?.flagCounts?.LARGE_ODDS_MOVE === 4,
+    "fixture risk summary must count large odds moves"
+  );
 
   assert(manifest.project === "TxODDS World Cup Sentinel", "manifest project mismatch");
   assert(manifest.mode === "demo-data", "manifest mode must stay demo-data");
@@ -97,6 +113,14 @@ async function main() {
   assert(
     manifest.reports.txoddsCapture.automationReadinessState === "blocked",
     "captured manifest summary must include automation readiness"
+  );
+  assert(
+    manifest.reports.fixture.riskSummary.maxSettlementLagMinutes === 198,
+    "fixture manifest summary must include risk summary"
+  );
+  assert(
+    manifest.reports.txoddsCapture.riskSummary.maxAbsProbabilityMovePctPoints === 8.4,
+    "captured manifest summary must include risk summary"
   );
 
   const artifactPaths = new Set(manifest.artifacts.map((artifact) => artifact.path));
@@ -130,6 +154,9 @@ async function main() {
     "What an automated strategy should do",
     "Can an agent act on this snapshot?",
     "Automation gate",
+    "Evidence at a glance",
+    "Max settlement lag",
+    "Max odds move",
     "Pause settlement automation",
     "judge-brief.html",
     ".well-known/ai.txt",

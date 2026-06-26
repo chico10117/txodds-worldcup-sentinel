@@ -119,6 +119,30 @@
       }
     ]
   },
+  "riskSummary": {
+    "highestSeverity": "high",
+    "marketsWithFlags": 2,
+    "readyMarkets": 0,
+    "reviewMarkets": 0,
+    "blockedMarkets": 2,
+    "flagCounts": {
+      "EVENT_MARKET_MISMATCH": 1,
+      "LARGE_ODDS_MOVE": 4,
+      "SETTLEMENT_DRIFT": 3,
+      "STALE_FEED": 2
+    },
+    "severityCounts": {
+      "high": 8,
+      "medium": 2
+    },
+    "maxSettlementLagMinutes": 198,
+    "maxAbsProbabilityMovePctPoints": 25.97,
+    "primaryBlockingFlagCodes": [
+      "EVENT_MARKET_MISMATCH",
+      "LARGE_ODDS_MOVE",
+      "SETTLEMENT_DRIFT"
+    ]
+  },
   "flags": [
     {
       "code": "EVENT_MARKET_MISMATCH",

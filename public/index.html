@@ -267,8 +267,65 @@
         <div class="metric"><span>Markets</span><strong>2</strong></div>
         <div class="metric"><span>Flags</span><strong>10</strong></div>
         <div class="metric"><span>Ready markets</span><strong>0/2</strong></div>
+        <div class="metric"><span>Max lag</span><strong>198m</strong></div>
+        <div class="metric"><span>Max move</span><strong>25.97pp</strong></div>
       </aside>
     </header>
+
+    <section>
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Audit summary</p>
+          <h2>Evidence at a glance</h2>
+        </div>
+        <p>Deterministic report summary for judge review and downstream agents: maximum lag, maximum odds move, blocked-market count, and flag counts all come from the same analyzer output as the JSON reports.</p>
+      </div>
+      <div class="signals">
+        <table>
+          <thead>
+            <tr>
+              <th>Evidence</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+
+        <tr>
+          <td>Highest severity</td>
+          <td>high</td>
+        </tr>
+        <tr>
+          <td>Markets with flags</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>Blocked markets</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>Review markets</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>Max settlement lag</td>
+          <td>198 minutes</td>
+        </tr>
+        <tr>
+          <td>Max odds move</td>
+          <td>25.97 probability points</td>
+        </tr>
+        <tr>
+          <td>Primary blockers</td>
+          <td>EVENT_MARKET_MISMATCH, LARGE_ODDS_MOVE, SETTLEMENT_DRIFT</td>
+        </tr>
+        <tr>
+          <td>Flag counts</td>
+          <td>EVENT_MARKET_MISMATCH: 1, LARGE_ODDS_MOVE: 4, SETTLEMENT_DRIFT: 3, STALE_FEED: 2</td>
+        </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
     <section>
       <div class="section-head">

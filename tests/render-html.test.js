@@ -66,6 +66,11 @@ test("renders a deterministic static demo report", () => {
   assert.match(html, /Automation gate/);
   assert.match(html, /Can an agent act on this snapshot\?/);
   assert.match(html, /Do not automate settlement, trading, or quoting/);
+  assert.match(html, /Evidence at a glance/);
+  assert.match(html, /Max settlement lag/);
+  assert.match(html, /70 minutes/);
+  assert.match(html, /Max odds move/);
+  assert.match(html, /25.97 probability points/);
   assert.match(html, /report\.json/);
   assert.match(html, /txodds-capture-report\.json/);
   assert.match(html, /replay-manifest\.json/);
